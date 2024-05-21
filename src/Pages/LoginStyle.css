@@ -1,0 +1,122 @@
+#LoginContainer{
+    width: 100vw;
+    height: 100vh;
+}
+
+#Login {
+    display: flex;
+    width: 35%;
+    height: 90%;
+    margin: 2% auto;
+    padding: 2% 0.2rem;
+    border-radius: 2%;
+    border: 0.05rem solid rgb(159, 156, 156);
+}
+
+#Login:hover{
+    background-color: white;
+}
+
+#Login .LoginButton:first-child{
+    margin-top: 5%;
+}
+
+#Login .LoginButton {
+    display: flex;
+    align-items: center;
+    width: 65%;
+    margin: 3% auto 4% auto;
+    padding: 2.5% 0;
+    justify-content: center;
+    background-color: white;
+    border: 0.05rem solid rgb(159, 156, 156);
+}
+
+#Login .LoginButton:hover{
+    color: white;
+    background-color: black;
+}
+
+#Login .LoginInput {
+    width: 65%;
+    margin: 6px auto;
+    padding: 4px 4%;
+    height: 2.5rem;
+    outline: none;
+    border: 0.05rem solid rgb(159, 156, 156);
+}
+
+#Login .HeadingText {
+    margin: 3% auto 3%;
+    font-weight: bolder;
+}
+
+#Login .Or-line {
+    align-items: center;
+    border-top: 1px solid;
+    width: 65%;
+    margin: 4% auto;
+    color: rgb(159, 156, 156);
+}
+
+#Login .submit {
+    width: 100%;
+}
+
+.contact {
+    border-radius: 0.14rem;
+}
+
+.center-placeholder::placeholder {
+    vertical-align: middle;
+}
+
+#Login .NotAccount {
+    align-items: center;
+    padding-top: 2rem;
+    margin-top: 42px;
+}
+
+#SignupContainer .NotAccount{
+    margin-top:0;
+}
+
+#Login .NotAccount p {
+    margin: 0;
+}
+
+/* Signup page CSS */
+.passwordContainer {
+    display: flex;
+    width: 65%;
+    height: 2.5rem;
+    margin: 4px auto;
+    padding: 4px 4%;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 0.14rem;
+    border: 0.05rem solid rgb(159, 156, 156);
+}
+
+.passwordContainer input {
+    border: none !important;
+    margin: 0 !important;
+    padding-left: 0 !important;
+    height: 2rem !important;
+    width: 100% !important;
+}
+
+.passwordContainer a {
+    cursor: pointer;
+    vertical-align: center;
+}
+
+@media (max-width: 999px) {
+
+    #Login {
+        width: 100%;
+        margin: 0;
+        padding: 1rem;
+        border: none;
+    }
+}

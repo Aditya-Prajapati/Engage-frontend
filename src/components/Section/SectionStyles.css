@@ -1,0 +1,29 @@
+#Section {
+  background-color: #fff;
+  border-bottom: 0.9px solid rgb(211, 211, 211, 0.3);
+  position: sticky;
+  top: 0;
+  justify-content: center;
+  z-index: 2;
+}
+
+.SectionLinks{
+  text-decoration: none;
+}
+
+#Section .flex-md-fill {
+  background-color: #fff;
+  color: rgb(86, 85, 85);
+  font-weight: 700;
+  text-align: center;
+}
+
+#Section .flex-md-fill:hover {
+  background-color: rgb(247, 249, 249);
+  cursor: pointer;
+}
+
+#Section .flex-md-fill.active {
+  border: solid #51aaf3;
+  border-width: 0 0 2px 0;
+}
