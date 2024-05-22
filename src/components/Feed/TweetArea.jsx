@@ -67,13 +67,13 @@ export default function TweetArea(props){
                     
                     <textarea placeholder={props.text} onChange={(e) => {setTweetContent(e.target.value)}} value={tweetContent} className={"tweet-area-text-area"}></textarea>
 
-                    <div className={"d-flex my-2 align-items-center justify-content-between"}>
+                    <div className={"d-flex my-2 align-items-center justify-content-end"}>
 
-                        <div className={"d-flex"}>
+                        {/* <div className={"d-flex"}>
                             <div href="#"> <CollectionsIcon className={"ms-1"} fontSize="small" sx={{ color: "#1da1f2" }} /> </div>
                             <div href="#"> <GifBoxIcon className={"ms-3"} fontSize="small" sx={{ color: "#1da1f2" }} /> </div>
                             <div href="#"> <SentimentSatisfiedAltIcon className={"ms-3"} fontSize="small" sx={{ color: "#1da1f2" }} /> </div>
-                        </div>
+                        </div> */}
 
                         <button 
                             className={"tweet-button"}

@@ -6,7 +6,7 @@ import axios from "axios";
 const handleFollow = (userToMap, setButtonText, followUpdated, setFollowUpdated) => {
     
     axios
-        .post("http://localhost:8000/follow",
+        .post("http://localhost:8000/user/follow",
         {
             userToMap: userToMap
         },

@@ -9,7 +9,7 @@ import axios from "axios";
 
 const getUpdatedUser = (updatedUser) => {
     axios
-        .get("http://localhost:8000/getuser",
+        .get("http://localhost:8000/user/getuser",
         { withCredentials: true }
         )
         .then((res) => {

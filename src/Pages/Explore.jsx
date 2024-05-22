@@ -28,7 +28,9 @@ export default function Explore(props){
             <div className="d-inline-flex flex-column feed">
                 {/* <Header heading="Explore" subHeading="" /> */}
                 <div className="d-flex justify-content-center align-items-center w-100">
-                    <Searchbar style={{ width: "96%" }} />
+                    <div className="position-relative w-100 px-2">
+                        <Searchbar user={props.user} style={{ width: "100%" }} />
+                    </div>
                 </div>
 
                 {!isMobile && <Section sections={sections} activeIndex={0} />}

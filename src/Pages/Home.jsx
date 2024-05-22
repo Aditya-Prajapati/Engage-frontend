@@ -57,7 +57,7 @@ export default function Home(props){
 
             <div className="d-inline-flex flex-column feed">
                 <Header heading="Home" subHeading="" />
-                <TweetArea user={props.user} tweets={tweets} setTweets={setTweets} text="What is happening ?!" buttonText="Tweet" width={52} height={52} />            
+                <TweetArea user={props.user} tweets={tweets} setTweets={setTweets} text="What's on your mind ?!" buttonText="Post" width={52} height={52} />            
 
                 {tweets.map((tweet, index) => {
                     let user = {
@@ -79,7 +79,7 @@ export default function Home(props){
             <div className={"d-inline-flex flex-column side-panel-container"}>
 
                 {isDesktop && <div className="sticky-top">
-                    <Searchbar style={{ width: "100%" }} />
+                    <Searchbar user={props.user} style={{ width: "100%" }} />
                     <SidePanel user={props.user} />
                 </div>} 
 

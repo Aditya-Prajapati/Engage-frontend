@@ -1,7 +1,6 @@
 .searchbar{
     border-radius: 30px;
     height: 48px;
-    margin-bottom: 12px;
     padding: 12px;
     background-color: rgb(247, 249, 249);
     box-shadow: 0 0 3px 0 #00000022;
@@ -9,7 +8,24 @@
 
 .searchbar input{
     border: none;
-    outline: none;
     padding-right: 12px;
     background-color: rgb(247, 249, 249);
+}
+
+.searchbar input:focus{
+    outline: none;
+}
+
+.search-box{
+    position: absolute;
+    border-radius: 16px;
+    max-height: 60vh;
+    overflow-y: scroll;
+    background-color: white;
+    z-index: 99;
+    width: 98%;
+}
+
+.search-box-heading{
+    padding: 10px 20px;
 }

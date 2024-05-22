@@ -74,7 +74,7 @@ export default function Profile(props){
             <div className={"d-inline-flex flex-column side-panel-container"}>
 
                 {isDesktop && <div className="sticky-top">
-                    <Searchbar style={{ width: "100%" }} />
+                    <Searchbar user={props.user} style={{ width: "100%" }} followUpdated={followUpdated} setFollowUpdated={setFollowUpdated}/>
                     <SidePanel user={props.user} setUser={props.setUser} followUpdated={followUpdated} setFollowUpdated={setFollowUpdated} />
                 </div>} 
 

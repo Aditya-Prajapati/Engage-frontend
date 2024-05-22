@@ -6,7 +6,7 @@ import axios from "axios";
 const getUsers = (request, path, setUsersToMap, setUpdatedUser) => {
 
     axios
-        .get("http://localhost:8000/getusers", {
+        .get("http://localhost:8000/user/getusers", {
             withCredentials: true,
             params: { users: request }
         }
