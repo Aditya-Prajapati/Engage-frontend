@@ -130,7 +130,7 @@ export default function TweetPage(props) {
             <div className={"d-inline-flex flex-column side-panel-container"}>
 
                 {isDesktop && <div className="sticky-top">
-                    <Searchbar style={{ width: "100%" }} />
+                    <Searchbar user={props.user} style={{ width: "100%" }} />
                     <SidePanel user={props.user} />
                 </div>}
 

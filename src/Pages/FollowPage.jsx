@@ -20,6 +20,7 @@ export default function FollowPage(props) {
     let requestId = (path==="followers") ? 0 : 1;
     /* (props.requestId == 0) -> followers
     (props.requestId == 1) -> following
+    (props.requestId == 2) -> search
     */
 
     return (
@@ -43,7 +44,7 @@ export default function FollowPage(props) {
             <div className={"d-inline-flex flex-column side-panel-container"}>
 
                 {isDesktop && <div className="sticky-top">
-                    <Searchbar style={{ width: "100%" }} />
+                    <Searchbar user={props.user} style={{ width: "100%" }} />
                     <SidePanel user={props.user} />
                 </div>}
 

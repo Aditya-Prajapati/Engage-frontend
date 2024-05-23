@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "../components/App.css";
 
@@ -11,75 +12,113 @@ import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header.jsx";
 import ProfileBox from "../components/ProfileBox/ProfileBox";
 
-export default function Profile(props){
+const isEmptyObject = (obj) => {
+  return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
+};
 
-    const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
-    const isTablet = useMediaQuery({ query: "(min-width: 600px)" });
-    const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
+export default function Profile(props) {
+  const location = useLocation();
+  const { customUser } = location.state || {};
 
-    const [deleteTweet, setDeleteTweet] = useState(-1);
-    const [isLoading, setIsLoading] = useState(true);
-    const [tweets, setTweets] = useState(null);
-    const [followUpdated, setFollowUpdated] = useState(false);
+  const isCustomUser = customUser && !isEmptyObject(customUser) && customUser.username !== props.user.username;
+  const user = isCustomUser ? customUser : props.user;
 
-    useEffect(() => {
-        const getTweets = () => {
-            axios.
-                get("http://localhost:8000/tweet/gettweets",{
-                    withCredentials: true,
-                    params: { all: false }
-                }
-                )
-                .then((res) => {
-                    if (res.status === 200){
-                        setTweets(res.data.tweets.reverse());
-                    }
+  const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
+  const isTablet = useMediaQuery({ query: "(min-width: 600px)" });
+  const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
 
-                    setIsLoading(false);
-                    setDeleteTweet(false);
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        }
+  const [deleteTweet, setDeleteTweet] = useState(-1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [tweets, setTweets] = useState(null);
+  const [followUpdated, setFollowUpdated] = useState(false);
 
-        getTweets();
-    }, [deleteTweet])
+  useEffect(() => {
+    const getTweets = () => {
+      axios
+        .get("http://localhost:8000/tweet/gettweets", {
+          withCredentials: true,
+          params: { all: false, customUser: isCustomUser && user.username },
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            setTweets(res.data.tweets.reverse());
+          }
 
-    if (isLoading){
-        return <div> Loading... </div>;
-    }
+          setIsLoading(false);
+          setDeleteTweet(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
 
-    return (
-        <div className="d-flex main-container" id="profile">
-            
-            <div className="d-inline-flex">
-                {(isTablet || isDesktop) && <Sidebar user={props.user} />}
-            </div>
+    getTweets();
+  }, [deleteTweet, user]);
 
-            <div className="d-inline-flex flex-column feed">
-                <Header heading={props.user.name} subHeading={tweets.length!==1 ? tweets.length + " Tweets": "1 Tweet"} style={{ height: "75px" }} />
-                <ProfileBox user={props.user} setUser={props.setUser} followUpdated={followUpdated} />
-                <Header heading="Your tweets" style={{ height: "75px" }} />
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-                {tweets.map((tweet, index) => {
-                    let liked = tweet.likedBy.filter((likedBy) => {
-                        return likedBy === props.user.username
-                    })
-                    return <Tweet key={index} tweet={tweet} liked={liked.length} user={props.user} setDeleteTweet={setDeleteTweet} />;
-                })}
-                {isMobile && <MobileNavbar user={props.user} />}
-            </div>
+  return (
+    <div className="d-flex main-container" id="profile">
+      <div className="d-inline-flex">
+        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+      </div>
 
-            <div className={"d-inline-flex flex-column side-panel-container"}>
+      <div className="d-inline-flex flex-column feed">
+        <Header
+          heading={user.name}
+          subHeading={
+            tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet"
+          }
+          style={{ height: "75px" }}
+        />
+        <ProfileBox
+          user={user}
+          isCustomUser={isCustomUser}
+          setUser={props.setUser}
+          followUpdated={followUpdated}
+        />
+        <Header
+          heading={isCustomUser ? "Tweets" : "Your tweets"}
+          style={{ height: "75px" }}
+        />
 
-                {isDesktop && <div className="sticky-top">
-                    <Searchbar style={{ width: "100%" }} />
-                    <SidePanel user={props.user} setUser={props.setUser} followUpdated={followUpdated} setFollowUpdated={setFollowUpdated} />
-                </div>} 
+        {tweets.map((tweet, index) => {
+          let liked = tweet.likedBy.filter((likedBy) => {
+            return likedBy === user.username;
+          });
+          return (
+            <Tweet
+              key={index}
+              tweet={tweet}
+              liked={liked.length}
+              user={user}
+              setDeleteTweet={setDeleteTweet}
+            />
+          );
+        })}
+        {isMobile && <MobileNavbar user={props.user} />}
+      </div>
 
-            </div>
-
-        </div>
-    );
+      <div className={"d-inline-flex flex-column side-panel-container"}>
+        {isDesktop && (
+          <div className="sticky-top">
+            <Searchbar
+              user={props.user}
+              style={{ width: "100%" }}
+              followUpdated={followUpdated}
+              setFollowUpdated={setFollowUpdated}
+            />
+            <SidePanel
+              user={props.user}
+              setUser={props.setUser}
+              followUpdated={followUpdated}
+              setFollowUpdated={setFollowUpdated}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
 }
