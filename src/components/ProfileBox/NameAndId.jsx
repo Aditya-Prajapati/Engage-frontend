@@ -1,4 +1,5 @@
 import React from "react";
+import "./NameAndId.css";
 
 export default function NameAndId(props){
 
@@ -15,8 +16,8 @@ export default function NameAndId(props){
     return (
         <div className="d-inline-flex flex-column name-and-id">
 
-            <p className="m-0" style={{ fontWeight: "500" }}> {userCopy.name} </p> 
-            <div style={{ color: "rgb(83, 100, 113)" }}><span> {userCopy.username} </span></div>
+            <p> {userCopy.name} </p> 
+            <div><span> {userCopy.username} </span></div>
             
         </div>
     );

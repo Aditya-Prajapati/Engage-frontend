@@ -1,32 +1,7 @@
 import React, { useEffect, useState } from "react";
 import SidePanelItem from "./SidePanelItem";
 import "./SidePanel.css";
-import axios from "axios";
-
-const getUsers = (request, path, setUsersToMap, setUpdatedUser) => {
-
-    axios
-        .get("http://localhost:8000/user/getusers", {
-            withCredentials: true,
-            params: { users: request }
-        }
-        )
-        .then((res) => {
-            setUpdatedUser(res.data.user);
-            if (path === "following"){
-                setUsersToMap(res.data.user.follows);
-            }
-            else if (path === "followers"){
-                setUsersToMap(res.data.user.followedBy);
-            }
-            else {
-                setUsersToMap((res.data.randomUsers.length === 0) ? [] : res.data.randomUsers);
-            }
-        })
-        .catch((err) => {
-            console.log(err);
-        })
-}
+import { getUsers } from "../../Utils/utils";
 
 export default function SidePanel(props){
     /* (props.requestId == 0) -> followers
@@ -45,10 +20,10 @@ export default function SidePanel(props){
 
     useEffect(() => {
         if (props.path === "followers" || props.path === "following"){
-            getUsers("current", props.path, setUsersToMap, setUpdatedUser);
+            getUsers("current", props.path, setUsersToMap, setUpdatedUser, "");
         }
         else {
-            getUsers("random", props.path, setUsersToMap, setUpdatedUser);
+            getUsers("random", props.path, setUsersToMap, setUpdatedUser, "");
         }
     }, [props.path])
 

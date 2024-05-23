@@ -4,33 +4,27 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./Searchbar.css";
 import SidePanel from "../SidePanel/SidePanel";
 import SidePanelItem from "../SidePanel/SidePanelItem";
+import ClearButton from "./ClearButton";
+import { getUsers } from "../../Utils/utils";
 
 export default function Searchbar(props) {
   const [input, setInput] = useState("");
   const [usersToMap, setUsersToMap] = useState(null);
-
-  const fetchUsers = (value) => {
-    axios
-      .get("http://localhost:8000/user/getusers", {
-        withCredentials: true,
-        params: { users: "search", toSearch: value },
-      })
-      .then((res) => {
-        console.log(res.data.users);
-        setUsersToMap(res.data.users);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+  const [followUpdated, setFollowUpdated] = useState(false);
+  const [updatedUser, setUpdatedUser] = useState(null);
 
   const handleChange = (value) => {
     setInput(value);
-    fetchUsers(value);
+    getUsers("search", "search", setUsersToMap, setUpdatedUser, value);
+  };
+
+  const handleClear = () => {
+    setInput("");
+    setUsersToMap(null);
   };
 
   return (
-    <>
+    <div className="searchbar-container">
       <div
         className={
           "d-inline-flex align-items-center mt-2 searchbar " + props.className
@@ -38,23 +32,31 @@ export default function Searchbar(props) {
         style={props.style}
       >
         <SearchIcon
-          className="align-items-center ms-2 me-3 "
+          className="searchIcon align-items-center ms-2 me-3 "
           fontSize="medium"
           sx={{ color: "rgb(83, 100, 113)" }}
         />
         <input
-          className="d-flex w-100 bgc-white"
+          className="d-flex bgc-white"
           value={input}
           onChange={(e) => handleChange(e.target.value)}
           placeholder="Search users"
         />
+        {input && <ClearButton onClick={handleClear} />}
       </div>
-      <div className="search-box-container d-flex justify-content-center">
+      <div className="search-box-container d-none justify-content-center">
         <div className="search-box bgc-white box-shadow">
           {usersToMap !== null && usersToMap.length ? (
             <div className="search-box-heading">Search for "{input}"</div>
           ) : (
-            ""
+            <>
+              <div className="search-box-heading">
+                Try searching for people...
+              </div>
+              <ul className="list-group">
+                <li></li><li></li>
+              </ul>
+            </>
           )}
           <ul className="list-group">
             {usersToMap &&
@@ -62,22 +64,17 @@ export default function Searchbar(props) {
                 return (
                   <SidePanelItem
                     key={index}
-                    user={props.user}
-                    followUpdated={props.followUpdated}
-                    setFollowUpdated={props.setFollowUpdated}
+                    user={updatedUser || props.user}
+                    followUpdated={followUpdated}
+                    setFollowUpdated={setFollowUpdated}
                     userToMap={userToMap}
-                    followPage={props.followPage}
-                    style={{ backgroundColor: "white" }}
+                    followPage={false}
                   />
                 );
               })}
           </ul>
         </div>
       </div>
-    </>
+    </div>
   );
 }
-
-// : (
-//   <div className="search-box-heading">Try searching for people...</div>
-// )}
