@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, Navigate, useParams } from "react-router-dom";
+import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
 // import { Analytics } from '@vercel/analytics/react';
 import axios from "axios";
 import Home from "../Pages/Home";
@@ -16,6 +16,7 @@ export default function App() {
     const [user, setUser] = useState(null);
     const [signedUpMsg, setSignedUpMsg] = useState("");
     const [isLoading, setIsLoading] = useState(true);
+    const location = useLocation();
 
     useEffect(() => {
         const getUser = async () => {
@@ -46,7 +47,16 @@ export default function App() {
     }, []);
 
     if (isLoading) {
-        return <div> Loading... </div>;
+        // return <div> Loading... </div>;
+        if (location.pathname == "/profile"){
+            return <Profile />;
+        }
+        else if (location.pathname == "explore"){
+            return <Explore />;
+        }
+        else {
+            return <Home />;
+        }
     }
 
     return (

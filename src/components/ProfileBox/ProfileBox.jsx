@@ -6,6 +6,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ProfileImage from "../ProfileImage";
 import "./ProfileBox.css";
 import axios from "axios";
+import { ProfileBoxSkeletonLoader } from "../SkeletonLoader/index.js";
 
 const getUpdatedUser = (updatedUser) => {
   axios
@@ -25,10 +26,12 @@ export default function ProfileBox(props) {
     getUpdatedUser(setUpdatedUser);
   }, [props.followUpdated]);
 
-  if (!updatedUser) return <div> Loading... </div>;
+  // if (!updatedUser){
+  //   return <div> Loading... </div>;
+  // }
 
   return (
-    <div>
+    !updatedUser ? <ProfileBoxSkeletonLoader /> : (<div>
       {/* Cover Image */}
       <div className="profile-box-bg">
         <img src=""></img> {/* alt="cover_photo" */}
@@ -67,6 +70,6 @@ export default function ProfileBox(props) {
           )}
         </div>
       </div>
-    </div>
+    </div>)
   );
 }

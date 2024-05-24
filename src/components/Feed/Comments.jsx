@@ -8,6 +8,7 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import axios from "axios";
 import Tweet from "./Tweet";
+import { TweetSkeletonLoader } from "../SkeletonLoader";
 
 export default function Comments(props) {
 
@@ -36,7 +37,9 @@ export default function Comments(props) {
         getComments();
     }, [props.newComment])
 
-    if (commentedBy == null) return <div> Loading... </div>;
+    if (commentedBy == null) {
+        return <> <TweetSkeletonLoader /> <TweetSkeletonLoader /> </>;
+    };
 
     return (
         <>
