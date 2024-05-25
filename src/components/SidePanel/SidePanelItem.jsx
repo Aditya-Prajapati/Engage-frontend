@@ -6,11 +6,16 @@ import ProfileImage from "../ProfileImage";
 import "./SidePanel.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { SidePanelItemSkeletonLoader } from "../SkeletonLoader";
 
 export default function SidePanelItem(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [buttonText, setButtonText] = useState("");
   const [buttonHover, setButtonHover] = useState(false);
+
+  if (!props.user){
+    return <SidePanelItemSkeletonLoader />;
+  }
   
   useEffect(() => {
     const temp = props.user.follows.filter((follows) => {

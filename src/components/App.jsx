@@ -47,11 +47,11 @@ export default function App() {
     }, []);
 
     if (isLoading) {
-        // return <div> Loading... </div>;
-        if (location.pathname == "/profile"){
-            return <Profile />;
-        }
-        else if (location.pathname == "explore"){
+        // if (location.pathname == "/profile"){
+        //     return <Profile />;
+        // }
+        // else 
+        if (location.pathname == "/explore"){
             return <Explore />;
         }
         else {
