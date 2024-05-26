@@ -6,21 +6,23 @@ import SidePanel from "../SidePanel/SidePanel";
 import SidePanelItem from "../SidePanel/SidePanelItem";
 import ClearButton from "./ClearButton";
 import { getUsers } from "../../Utils/utils";
+import { SidePanelItemSkeletonLoader } from "../SkeletonLoader/index.js";
 
 export default function Searchbar(props) {
   const [input, setInput] = useState("");
-  const [usersToMap, setUsersToMap] = useState(null);
+  const [usersToMap, setUsersToMap] = useState(undefined);
   const [followUpdated, setFollowUpdated] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(null);
 
   const handleChange = (value) => {
     setInput(value);
+    setUsersToMap(undefined);
     getUsers("search", "search", setUsersToMap, setUpdatedUser, value);
   };
 
   const handleClear = () => {
     setInput("");
-    setUsersToMap(null);
+    setUsersToMap(undefined);
   };
 
   return (
@@ -46,20 +48,20 @@ export default function Searchbar(props) {
       </div>
       <div className="search-box-container d-none justify-content-center">
         <div className="search-box bgc-white box-shadow">
-          {usersToMap !== null && usersToMap.length ? (
+          {usersToMap && usersToMap.length ? (
             <div className="search-box-heading">Search for "{input}"</div>
           ) : (
             <>
               <div className="search-box-heading">
                 Try searching for people...
               </div>
-              <ul className="list-group">
+              {input==="" && <ul className="list-group">
                 <li></li><li></li>
-              </ul>
+              </ul>}
             </>
           )}
           <ul className="list-group">
-            {usersToMap &&
+            {(input !== "" && usersToMap===undefined) ? ([...Array(3)].map((_, index) => <SidePanelItemSkeletonLoader key={index} />)) : (usersToMap &&
               usersToMap.map((userToMap, index) => {
                 return (
                   <SidePanelItem
@@ -71,7 +73,7 @@ export default function Searchbar(props) {
                     followPage={false}
                   />
                 );
-              })}
+              }))}
           </ul>
         </div>
       </div>

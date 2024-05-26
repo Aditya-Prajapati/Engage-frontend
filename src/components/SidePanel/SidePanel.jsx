@@ -1,56 +1,68 @@
 import React, { useEffect, useState } from "react";
 import SidePanelItem from "./SidePanelItem";
 import "./SidePanel.css";
+import { SidePanelItemSkeletonLoader } from "../SkeletonLoader/index.js";
 import { getUsers } from "../../Utils/utils";
 
-export default function SidePanel(props){
-    /* (props.requestId == 0) -> followers
+export default function SidePanel(props) {
+  /* (props.requestId == 0) -> followers
     (props.requestId == 1) -> following
     */
 
-    const [usersToMap, setUsersToMap] = useState(null);
-    const [updatedUser, setUpdatedUser] = useState(null);
+  const [usersToMap, setUsersToMap] = useState(null);
+  const [updatedUser, setUpdatedUser] = useState(null);
 
-    let customItemStyle = {
-        backgroundColor: "white",
-        backgroundColorHover: "red",
-        borderRadius: "0",
-        cursor: "pointer",
+  let customItemStyle = {
+    backgroundColor: "white",
+    backgroundColorHover: "red",
+    borderRadius: "0",
+    cursor: "pointer",
+  };
+
+  useEffect(() => {
+    if (props.path === "followers" || props.path === "following") {
+      getUsers("current", props.path, setUsersToMap, setUpdatedUser, "");
+    } else {
+      getUsers("random", props.path, setUsersToMap, setUpdatedUser, "");
     }
+  }, [props.path]);
 
-    useEffect(() => {
-        if (props.path === "followers" || props.path === "following"){
-            getUsers("current", props.path, setUsersToMap, setUpdatedUser, "");
-        }
-        else {
-            getUsers("random", props.path, setUsersToMap, setUpdatedUser, "");
-        }
-    }, [props.path])
+  // if (!usersToMap){
+  //     return <div> Loading... </div>;
+  // }
 
-    if (!usersToMap){
-        return <div> Loading... </div>;
-    }
+  return (
+    <div
+      className={
+        "d-inline-flex bgc-white side-panel box-shadow " + props.classNames
+      }
+      style={props.style}
+    >
+      <ul className="list-group">
+        {props.heading || <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>}
 
-    return (  
-        (usersToMap.length !== 0) && <div className={"d-inline-flex bgc-white side-panel box-shadow " + props.classNames} style={props.style}>
-
-            <ul className="list-group" >
-                {props.heading || <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>}
-
-                {usersToMap.map((userToMap, index) => {
-                    return (
-                        <SidePanelItem 
-                            key={index} 
-                            user={updatedUser || props.user} 
-                            followUpdated={props.followUpdated} 
-                            setFollowUpdated={props.setFollowUpdated} 
-                            userToMap={userToMap} 
-                            followPage={props.followPage}
-                            style={(props.requestId===0 || props.requestId===1) ? customItemStyle : {}}
-                        />
-                    )
-                })}
-            </ul>
-        </div>
-    );
+        {!usersToMap
+          ? [...Array(4)].map((_, index) => (
+              <SidePanelItemSkeletonLoader key={index} />
+            ))
+          : usersToMap.map((userToMap, index) => {
+              return (
+                <SidePanelItem
+                  key={index}
+                  user={updatedUser || props.user}
+                  followUpdated={props.followUpdated}
+                  setFollowUpdated={props.setFollowUpdated}
+                  userToMap={userToMap}
+                  followPage={props.followPage}
+                  style={
+                    props.requestId === 0 || props.requestId === 1
+                      ? customItemStyle
+                      : {}
+                  }
+                />
+              );
+            })}
+      </ul>
+    </div>
+  );
 }

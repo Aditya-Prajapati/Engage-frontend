@@ -1,13 +1,15 @@
 import React from "react";
+import { ImageSkeletonLoader } from "./SkeletonLoader/index.js";
 
 export default function ProfileImage(props){
 
     if (!props.user)
-        return <div> Loading... </div>;
+        return <div style={{ margin: "4px 14px 0 0" }}> <ImageSkeletonLoader /> </div>;
 
     const imageStyle = {
         width: !props.width ? "46px" : `${props.width}px`,
         height: !props.height ? "46px" : `${props.height}px`,
+        borderRadius: "50%",
         ...props.style
     };
 

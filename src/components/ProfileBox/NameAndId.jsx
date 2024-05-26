@@ -1,10 +1,11 @@
 import React from "react";
 import "./NameAndId.css";
+import { NameAndIdSkeletonLoader } from "../SkeletonLoader";
 
 export default function NameAndId(props){
 
     if (!props.user) {
-        return <div> Loading... </div>; 
+        return <NameAndIdSkeletonLoader />;
     }
 
     let userCopy = JSON.parse(JSON.stringify(props.user));

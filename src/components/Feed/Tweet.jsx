@@ -136,7 +136,7 @@ export default function Tweet(props) {
 
     setTimeout(updateTimeStamp, 0);
 
-    if (!timeStamp) return <div> Loading... </div>;
+    // if (!timeStamp) return <div> Loading... </div>;
 
     return (
         <>
