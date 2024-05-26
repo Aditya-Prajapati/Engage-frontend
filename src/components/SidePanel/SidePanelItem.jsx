@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext} from "react";
 import { useMediaQuery } from "react-responsive";
 import GeneralButton from "../Buttons/GeneralButton";
 import NameAndId from "../ProfileBox/NameAndId";
@@ -6,12 +6,14 @@ import ProfileImage from "../ProfileImage";
 import "./SidePanel.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { UserContext } from "../../Context/UserContext";
 
 export default function SidePanelItem(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [buttonText, setButtonText] = useState("");
   const [buttonHover, setButtonHover] = useState(false);
-  
+  const { DarkMode , setDarkMode } = useContext(UserContext); 
+
   useEffect(() => {
     const temp = props.user.follows.filter((follows) => {
       return follows.username === props.userToMap.username;
@@ -36,12 +38,12 @@ export default function SidePanelItem(props) {
 
   return (
     <Link
-      className="side-panel-item-container"
+      className={`side-panel-item-container ${DarkMode === true ? "darkMode sidePanelItem-DarkMode hovering-class" :""}`}
       to="/profile"
       state={{ customUser: props.userToMap }}
     >
       <li
-        className="d-flex list-group-item my-1 bgc-white side-panel-item "
+        className={`d-flex list-group-item my-1 bgc-white side-panel-item `}
         style={props.style}
       >
         {/* Image */}

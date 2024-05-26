@@ -35,11 +35,10 @@ const handleFollow = (
 export default function GeneralButton(props) {
   /* (props.requestId == 0) -> followButton
    */
-
   return (
     <Link
       to={props.to}
-      className="d-flex align-items-center justify-content-center general-button-container"
+      className={`d-flex align-items-center justify-content-center general-button-container`}
     >
       <button
         onClick={() => {
@@ -57,7 +56,7 @@ export default function GeneralButton(props) {
       >
         <div className="anchor" style={{ color: `${props.color}` }}>
           {props.svg}
-          {props.text}
+          {props.text}   
         </div>
       </button>
     </Link>

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
+import DarkModeToggle from "../components/DarkModeButton/DarkModeButton";
 export default function NotFound(){
 
     const navigate = useNavigate();
@@ -11,6 +11,7 @@ export default function NotFound(){
 
     return (
         <>
+        <DarkModeToggle/>
         </>
     );
 }

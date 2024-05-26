@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SidePanelItem from "./SidePanelItem";
 import "./SidePanel.css";
 import { getUsers } from "../../Utils/utils";
+import { UserContext } from "../../Context/UserContext";
 
 export default function SidePanel(props){
     /* (props.requestId == 0) -> followers
@@ -10,6 +11,7 @@ export default function SidePanel(props){
 
     const [usersToMap, setUsersToMap] = useState(null);
     const [updatedUser, setUpdatedUser] = useState(null);
+    const { DarkMode, setDarkMode } = useContext(UserContext);
 
     let customItemStyle = {
         backgroundColor: "white",
@@ -31,26 +33,40 @@ export default function SidePanel(props){
         return <div> Loading... </div>;
     }
 
-    return (  
-        (usersToMap.length !== 0) && <div className={"d-inline-flex bgc-white side-panel box-shadow " + props.classNames} style={props.style}>
+    return (
+      usersToMap.length !== 0 && (
+        <div
+          className={
+            `d-inline-flex bgc-white side-panel box-shadow ${
+              DarkMode === true ? "darkMode" : ""
+            }` + props.classNames
+          }
+          style={props.style}
+        >
+          <ul className="list-group">
+            {props.heading || (
+              <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>
+            )}
 
-            <ul className="list-group" >
-                {props.heading || <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>}
-
-                {usersToMap.map((userToMap, index) => {
-                    return (
-                        <SidePanelItem 
-                            key={index} 
-                            user={updatedUser || props.user} 
-                            followUpdated={props.followUpdated} 
-                            setFollowUpdated={props.setFollowUpdated} 
-                            userToMap={userToMap} 
-                            followPage={props.followPage}
-                            style={(props.requestId===0 || props.requestId===1) ? customItemStyle : {}}
-                        />
-                    )
-                })}
-            </ul>
+            {usersToMap.map((userToMap, index) => {
+              return (
+                <SidePanelItem
+                  key={index}
+                  user={updatedUser || props.user}
+                  followUpdated={props.followUpdated}
+                  setFollowUpdated={props.setFollowUpdated}
+                  userToMap={userToMap}
+                  followPage={props.followPage}
+                  style={
+                    props.requestId === 0 || props.requestId === 1
+                      ? customItemStyle
+                      : {}
+                  }
+                />
+              );
+            })}
+          </ul>
         </div>
+      )
     );
 }

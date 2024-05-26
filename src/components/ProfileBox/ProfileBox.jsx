@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext} from "react";
 import { Link } from "react-router-dom";
 import NameAndId from "./NameAndId";
 import EditProfileButton from "../Buttons/EditProfileButton";
@@ -6,7 +6,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ProfileImage from "../ProfileImage";
 import "./ProfileBox.css";
 import axios from "axios";
-
+import { UserContext } from "../../Context/UserContext";
 const getUpdatedUser = (updatedUser) => {
   axios
     .get("http://localhost:8000/user/getuser", { withCredentials: true })
@@ -20,7 +20,7 @@ const getUpdatedUser = (updatedUser) => {
 
 export default function ProfileBox(props) {
   const [updatedUser, setUpdatedUser] = useState(null);
-
+  const {DarkMode , setDarkMode} = useContext(UserContext);
   useEffect(() => {
     getUpdatedUser(setUpdatedUser);
   }, [props.followUpdated]);
@@ -30,11 +30,19 @@ export default function ProfileBox(props) {
   return (
     <div>
       {/* Cover Image */}
-      <div className="profile-box-bg">
+      <div
+        className={`profile-box-bg  ${
+          DarkMode === true ? "darkMode profileBox-darkMode" : ""
+        }`}
+      >
         <img src=""></img> {/* alt="cover_photo" */}
       </div>
 
-      <div className={"profile-box"}>
+      <div
+        className={`profile-box  ${
+          DarkMode === true ? "darkMode profileBox-darkMode" : ""
+        } `}
+      >
         <div className="d-flex align-items-center justify-content-center profile-img-container">
           <ProfileImage user={props.user} width={133} height={133} />
         </div>

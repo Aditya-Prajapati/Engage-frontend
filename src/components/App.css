@@ -1,6 +1,6 @@
 .main-container {
     justify-content: center;
-    padding-bottom: 38px;
+    /* padding-bottom: 38px; */
 }
 
 .feed {
@@ -51,4 +51,31 @@
         margin: 0;
     }
 
+}
+
+/*                                  */
+.darkMode *{
+    background-color: black !important;
+    color: white !important;
+    border-color: grey  !important;  
+}
+
+.darkMode{
+    border: solid !important;
+    border-width: 0.6px !important;
+   
+}
+
+.hovering-class{
+    border-color: rgb(142, 123, 123) !important;
+    border-width: 0.5px  !important;
+}
+
+.hovering-class:hover{
+   border-color: #1da1f2 !important;
+    color: #1da1f2 !important;
+}
+
+.darkMode-noBorder{
+    border: 0px !important;
 }

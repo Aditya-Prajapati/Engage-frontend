@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect , useContext} from "react";
 import { Link } from "react-router-dom";
 import "./SectionStyles.css";
-
+import { UserContext } from "../../Context/UserContext";
 export default function Section(props) {
 
     const [activeIndex, setActiveIndex] = useState(props.activeIndex);
-
+    const { DarkMode, setDarkMode} = useContext(UserContext);
     const handleChildClick = (index) => {
         setActiveIndex(index);
     };
 
     return (
-        <div className="d-flex justify-content-around bd-highlight" id="Section">
+        <div className={`d-flex justify-content-around bd-highlight ${DarkMode === true ? "darkMode":""}`} id="Section">
 
             {props.sections.map((section, index) => {
                 return (

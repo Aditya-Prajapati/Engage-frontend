@@ -1,4 +1,4 @@
-import react, { useState } from "react";
+import react, { useState, useContext } from "react";
 import axios from "axios";
 import SearchIcon from "@mui/icons-material/Search";
 import "./Searchbar.css";
@@ -6,13 +6,14 @@ import SidePanel from "../SidePanel/SidePanel";
 import SidePanelItem from "../SidePanel/SidePanelItem";
 import ClearButton from "./ClearButton";
 import { getUsers } from "../../Utils/utils";
+import { UserContext } from "../../Context/UserContext";
 
 export default function Searchbar(props) {
   const [input, setInput] = useState("");
   const [usersToMap, setUsersToMap] = useState(null);
   const [followUpdated, setFollowUpdated] = useState(false);
   const [updatedUser, setUpdatedUser] = useState(null);
-
+  const { DarkMode, setDarkMode } = useContext(UserContext);
   const handleChange = (value) => {
     setInput(value);
     getUsers("search", "search", setUsersToMap, setUpdatedUser, value);
@@ -27,7 +28,9 @@ export default function Searchbar(props) {
     <div className="searchbar-container">
       <div
         className={
-          "d-inline-flex align-items-center mt-2 searchbar " + props.className
+          "d-inline-flex align-items-center mt-2 searchbar " +
+          props.className + `${" "}` +
+          `${ DarkMode === true ? "darkMode hovering-class" :"" }`
         }
         style={props.style}
       >
@@ -54,7 +57,8 @@ export default function Searchbar(props) {
                 Try searching for people...
               </div>
               <ul className="list-group">
-                <li></li><li></li>
+                <li></li>
+                <li></li>
               </ul>
             </>
           )}
