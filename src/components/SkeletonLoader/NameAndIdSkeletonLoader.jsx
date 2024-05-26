@@ -1,11 +1,32 @@
 import React from "react";
 import "./NameAndIdSkeletonLoader.css";
 
-const NameAndIdSkeletonLoader = ({ widthName, widthId, heightName, heightId, animationDelayName, animationDelayId }) => {
+const NameAndIdSkeletonLoader = ({
+  widthName,
+  widthId,
+  heightName,
+  heightId,
+  animationDelayName,
+  animationDelayId,
+}) => {
   return (
     <div className="skeleton-name-id">
-      <div className="skeleton-name skeleton-animation" style={{ width: widthName, height: heightName, animationDelay: animationDelayName }}></div>
-      <div className="skeleton-id skeleton-animation" style={{ width: widthId, height: heightId, animationDelay: animationDelayId }}></div>
+      <div
+        className="skeleton-name skeleton-animation"
+        style={{
+          width: widthName,
+          height: heightName,
+          animationDelay: animationDelayName,
+        }}
+      ></div>
+      <div
+        className="skeleton-id skeleton-animation"
+        style={{
+          width: widthId,
+          height: heightId,
+          animationDelay: animationDelayId,
+        }}
+      ></div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect ,useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import GeneralButton from "../Buttons/GeneralButton";
 import NameAndId from "../ProfileBox/NameAndId";
@@ -13,9 +13,9 @@ export default function SidePanelItem(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [buttonText, setButtonText] = useState("");
   const [buttonHover, setButtonHover] = useState(false);
-  const { DarkMode , setDarkMode } = useContext(UserContext); 
+  const { DarkMode, setDarkMode } = useContext(UserContext);
 
-  if (!props.user){
+  if (!props.user) {
     return <SidePanelItemSkeletonLoader />;
   }
 
@@ -43,7 +43,7 @@ export default function SidePanelItem(props) {
 
   return (
     <Link
-      className={`side-panel-item-container ${DarkMode === true ? "darkMode sidePanelItem-DarkMode hovering-class" :""}`}
+      className={`side-panel-item-container ${DarkMode === true ? "darkMode sidePanelItem-DarkMode hovering-class" : ""}`}
       to="/profile"
       state={{ customUser: props.userToMap }}
     >
@@ -79,8 +79,8 @@ export default function SidePanelItem(props) {
                 buttonText === "Follow"
                   ? "white"
                   : buttonText !== "Following" && buttonHover
-                  ? "red"
-                  : "#282829"
+                    ? "red"
+                    : "#282829"
               }
               text={buttonText}
               setButtonText={setButtonText}

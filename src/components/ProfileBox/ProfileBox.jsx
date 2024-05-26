@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import NameAndId from "./NameAndId";
 import EditProfileButton from "../Buttons/EditProfileButton";
@@ -21,7 +21,7 @@ const getUpdatedUser = (updatedUser) => {
 
 export default function ProfileBox(props) {
   const [updatedUser, setUpdatedUser] = useState(null);
-  const {DarkMode , setDarkMode} = useContext(UserContext);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
   useEffect(() => {
     getUpdatedUser(setUpdatedUser);
   }, [props.followUpdated]);
@@ -30,8 +30,10 @@ export default function ProfileBox(props) {
   //   return <div> Loading... </div>;
   // }
 
-  return (
-    !updatedUser ? <ProfileBoxSkeletonLoader /> : (<div>
+  return !updatedUser ? (
+    <ProfileBoxSkeletonLoader />
+  ) : (
+    <div>
       {/* Cover Image */}
       <div
         className={`profile-box-bg  ${
@@ -78,6 +80,6 @@ export default function ProfileBox(props) {
           )}
         </div>
       </div>
-    </div>)
+    </div>
   );
 }

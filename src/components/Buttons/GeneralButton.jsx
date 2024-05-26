@@ -7,7 +7,7 @@ const handleFollow = (
   userToMap,
   setButtonText,
   followUpdated,
-  setFollowUpdated
+  setFollowUpdated,
 ) => {
   axios
     .post(
@@ -15,7 +15,7 @@ const handleFollow = (
       {
         userToMap: userToMap,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     )
     .then((res) => {
       {
@@ -47,7 +47,7 @@ export default function GeneralButton(props) {
               props.userToMap,
               props.setButtonText,
               props.followUpdated,
-              props.setFollowUpdated
+              props.setFollowUpdated,
             );
         }}
         className={"general-button " + props.className}
@@ -56,7 +56,7 @@ export default function GeneralButton(props) {
       >
         <div className="anchor" style={{ color: `${props.color}` }}>
           {props.svg}
-          {props.text}   
+          {props.text}
         </div>
       </button>
     </Link>

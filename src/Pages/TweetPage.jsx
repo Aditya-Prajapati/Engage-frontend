@@ -23,7 +23,8 @@ export default function TweetPage(props) {
   const { username, tweetId, isComment } = useParams();
   const [newComment, setNewComment] = useState(false);
   const [commentClicked, setCommentClicked] = useState(null);
-  const {DarkMode , setDarkMode} = useContext(UserContext);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
+
   useEffect(() => {
     setCommentClicked(null);
     setTweet(null);
@@ -74,8 +75,6 @@ export default function TweetPage(props) {
         {(isTablet || isDesktop) && <Sidebar user={props.user} />}
       </div>
 
-      <div className="d-inline-flex flex-column feed">
-        <Header heading="Tweet" subHeading="" />
       <div className="d-inline-flex flex-column feed">
         <Header heading="Tweet" subHeading="" />
 
@@ -161,8 +160,6 @@ export default function TweetPage(props) {
           />
         )}
 
-        {isMobile && <MobileNavbar user={props.user} />}
-      </div>
         {isMobile && <MobileNavbar user={props.user} />}
       </div>
 

@@ -31,8 +31,9 @@ export default function Searchbar(props) {
       <div
         className={
           "d-inline-flex align-items-center mt-2 searchbar " +
-          props.className + `${" "}` +
-          `${ DarkMode === true ? "darkMode hovering-class" :"" }`
+          props.className +
+          `${" "}` +
+          `${DarkMode === true ? "darkMode hovering-class" : ""}`
         }
         style={props.style}
       >
@@ -58,25 +59,32 @@ export default function Searchbar(props) {
               <div className="search-box-heading">
                 Try searching for people...
               </div>
-              {input==="" && <ul className="list-group">
-                <li></li><li></li>
-              </ul>}
+              {input === "" && (
+                <ul className="list-group">
+                  <li></li>
+                  <li></li>
+                </ul>
+              )}
             </>
           )}
           <ul className="list-group">
-            {(input !== "" && usersToMap===undefined) ? ([...Array(3)].map((_, index) => <SidePanelItemSkeletonLoader key={index} />)) : (usersToMap &&
-              usersToMap.map((userToMap, index) => {
-                return (
-                  <SidePanelItem
-                    key={index}
-                    user={updatedUser || props.user}
-                    followUpdated={followUpdated}
-                    setFollowUpdated={setFollowUpdated}
-                    userToMap={userToMap}
-                    followPage={false}
-                  />
-                );
-              }))}
+            {input !== "" && usersToMap === undefined
+              ? [...Array(3)].map((_, index) => (
+                  <SidePanelItemSkeletonLoader key={index} />
+                ))
+              : usersToMap &&
+                usersToMap.map((userToMap, index) => {
+                  return (
+                    <SidePanelItem
+                      key={index}
+                      user={updatedUser || props.user}
+                      followUpdated={followUpdated}
+                      setFollowUpdated={setFollowUpdated}
+                      userToMap={userToMap}
+                      followPage={false}
+                    />
+                  );
+                })}
           </ul>
         </div>
       </div>

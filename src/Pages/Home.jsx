@@ -56,7 +56,7 @@ export default function Home(props) {
       className={`d-flex main-container ${
         DarkMode === true ? "darkMode  darkMode-noBorder" : ""
       }`}
-      id="home" 
+      id="home"
     >
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && <Sidebar user={props.user} />}

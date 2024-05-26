@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -37,7 +37,7 @@ export default function Profile(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [tweets, setTweets] = useState(null);
   const [followUpdated, setFollowUpdated] = useState(false);
-  const { DarkMode , setDarkMode} = useContext(UserContext); 
+  const { DarkMode, setDarkMode } = useContext(UserContext);
 
   useEffect(() => {
     const getTweets = () => {
@@ -53,7 +53,7 @@ export default function Profile(props) {
 
           setTimeout(() => {
             setIsLoading(false);
-          }, 500); 
+          }, 500);
           setDeleteTweet(false);
         })
         .catch((err) => {
@@ -83,7 +83,8 @@ export default function Profile(props) {
         <Header
           heading={user.name}
           subHeading={
-            tweets && (tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet")
+            tweets &&
+            (tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet")
           }
           style={{ height: "75px" }}
         />
