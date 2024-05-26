@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect ,useContext } from "react";
 import { Routes, Route, Navigate, useParams, useLocation } from "react-router-dom";
-// import { Analytics } from '@vercel/analytics/react';
 import axios from "axios";
 import Home from "../Pages/Home";
 import Explore from "../Pages/Explore";
@@ -10,13 +9,25 @@ import Login from "../Pages/Login";
 import Signup from "../Pages/Signup";
 import TweetPage from "../Pages/TweetPage";
 import FollowPage from "../Pages/FollowPage";
+import { UserContext } from "../Context/UserContext";
 
 export default function App() {
 
     const [user, setUser] = useState(null);
     const [signedUpMsg, setSignedUpMsg] = useState("");
     const [isLoading, setIsLoading] = useState(true);
-    const location = useLocation();
+    const location = useLocation(); 
+
+
+     const { DarkMode } = useContext(UserContext);
+
+     useEffect(() => {
+       if (DarkMode) {
+         document.body.classList.add("dark-mode");
+       } else {
+         document.body.classList.remove("dark-mode");
+       }
+     }, [DarkMode]);
 
     useEffect(() => {
         const getUser = async () => {
@@ -86,7 +97,6 @@ export default function App() {
                 />
                 <Route path="*" element={<NotFound />} />
             </Routes>
-            {/* <Analytics /> */}
         </>
     );
 }

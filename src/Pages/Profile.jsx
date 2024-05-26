@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -12,6 +12,8 @@ import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header.jsx";
 import ProfileBox from "../components/ProfileBox/ProfileBox";
 import { TweetSkeletonLoader } from "../components/SkeletonLoader";
+import { UserContext } from "../Context/UserContext.js";
+import DarkModeToggle from "../components/DarkModeButton/DarkModeButton.jsx";
 
 const isEmptyObject = (obj) => {
   return obj && Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -35,6 +37,7 @@ export default function Profile(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [tweets, setTweets] = useState(null);
   const [followUpdated, setFollowUpdated] = useState(false);
+  const { DarkMode , setDarkMode} = useContext(UserContext); 
 
   useEffect(() => {
     const getTweets = () => {
@@ -66,7 +69,12 @@ export default function Profile(props) {
   // }
 
   return (
-    <div className="d-flex main-container" id="profile">
+    <div
+      className={`d-flex main-container ${
+        DarkMode === true ? "darkMode  darkMode-noBorder" : ""
+      }`}
+      id="profile"
+    >
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && <Sidebar user={props.user} />}
       </div>
@@ -128,6 +136,7 @@ export default function Profile(props) {
           </div>
         )}
       </div>
+      <DarkModeToggle />
     </div>
   );
 }

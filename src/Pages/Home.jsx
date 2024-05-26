@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +11,8 @@ import Tweet from "../components/Feed/Tweet";
 import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header";
 import TweetSkeletonLoader from "../components/SkeletonLoader/TweetSkeletonLoader";
+import DarkModeButton from "../components/DarkModeButton/DarkModeButton";
+import { UserContext } from "../Context/UserContext";
 
 export default function Home(props) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
@@ -19,6 +21,7 @@ export default function Home(props) {
 
   const [isLoading, setIsLoading] = useState(true);
   const [tweets, setTweets] = useState(null);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
 
   useEffect(() => {
     const getTweets = () => {
@@ -34,7 +37,7 @@ export default function Home(props) {
 
           setTimeout(() => {
             setIsLoading(false);
-          }, 500); 
+          }, 500);
         })
         .catch((err) => {
           console.log(err);
@@ -44,12 +47,17 @@ export default function Home(props) {
     getTweets();
   }, []);
 
-  //   if (isLoading) {
-  //     return <div> Loading... </div>;
-  //   }
+  // if (isLoading) {
+  //   return <div> Loading... </div>;
+  // }
 
   return (
-    <div className="d-flex main-container" id="home">
+    <div
+      className={`d-flex main-container ${
+        DarkMode === true ? "darkMode  darkMode-noBorder" : ""
+      }`}
+      id="home" 
+    >
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && <Sidebar user={props.user} />}
       </div>
@@ -101,6 +109,7 @@ export default function Home(props) {
           </div>
         )}
       </div>
+      <DarkModeButton />
     </div>
   );
 }

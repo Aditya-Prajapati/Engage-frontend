@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import axios from "axios";
@@ -12,6 +12,8 @@ import Header from "../components/Header/Header";
 import Comments from "../components/Feed/Comments";
 import TweetArea from "../components/Feed/TweetArea";
 import { TweetSkeletonLoader } from "../components/SkeletonLoader";
+import { UserContext } from "../Context/UserContext";
+import DarkModeToggle from "../components/DarkModeButton/DarkModeButton";
 
 export default function TweetPage(props) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
@@ -21,7 +23,7 @@ export default function TweetPage(props) {
   const { username, tweetId, isComment } = useParams();
   const [newComment, setNewComment] = useState(false);
   const [commentClicked, setCommentClicked] = useState(null);
-
+  const {DarkMode , setDarkMode} = useContext(UserContext);
   useEffect(() => {
     setCommentClicked(null);
     setTweet(null);
@@ -62,11 +64,18 @@ export default function TweetPage(props) {
   // };
 
   return (
-    <div className="d-flex main-container" id="tweet-page">
+    <div
+      className={`d-flex main-container ${
+        DarkMode === true ? "darkMode  darkMode-noBorder" : ""
+      }`}
+      id="tweet-page"
+    >
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && <Sidebar user={props.user} />}
       </div>
 
+      <div className="d-inline-flex flex-column feed">
+        <Header heading="Tweet" subHeading="" />
       <div className="d-inline-flex flex-column feed">
         <Header heading="Tweet" subHeading="" />
 
@@ -154,6 +163,8 @@ export default function TweetPage(props) {
 
         {isMobile && <MobileNavbar user={props.user} />}
       </div>
+        {isMobile && <MobileNavbar user={props.user} />}
+      </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
@@ -163,6 +174,7 @@ export default function TweetPage(props) {
           </div>
         )}
       </div>
+      <DarkModeToggle />
     </div>
   );
 }

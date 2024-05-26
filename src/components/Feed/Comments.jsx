@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState , useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Tweet.css";
 import ProfileImage from "../ProfileImage";
@@ -9,13 +9,14 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import axios from "axios";
 import Tweet from "./Tweet";
 import { TweetSkeletonLoader } from "../SkeletonLoader";
-
+import { UserContext } from "../../Context/UserContext";
 export default function Comments(props) {
 
     const [likes, setLikes] = useState(props.tweet.likes);
     const [comments, setComments] = useState(0);
     const [clickedComments, setClickedComments] = useState(false);
     const [commentedBy, setCommentedBy] = useState(null);
+    const {DarkMode , setDarkMode} = useContext(UserContext);
 
     useEffect(() => {
         const getComments = () => {
@@ -42,7 +43,7 @@ export default function Comments(props) {
     };
 
     return (
-        <>
+        <div className={`${DarkMode===true ? "darkMode" :""}`}>
             {/* Tweet component is used for comments too */}
             {commentedBy.map((commentBy, index) => {
                 let user = {
@@ -66,6 +67,6 @@ export default function Comments(props) {
                     />
                 )
             })}
-        </>
+        </div>
     )
 }

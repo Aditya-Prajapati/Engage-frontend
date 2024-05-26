@@ -38,3 +38,7 @@
   justify-content: space-between;
 }
 
+/*------------------------------*/
+.trending-changes{
+  border-top-width:0px !important;
+}

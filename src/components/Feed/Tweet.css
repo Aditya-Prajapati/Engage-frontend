@@ -59,3 +59,9 @@
     font-size: small;
     color: rgb(83, 100, 113);
 }
+
+/* ----------------------------- */
+.tweet-darkMode-changes{
+border-width: 0px !important;
+
+}   

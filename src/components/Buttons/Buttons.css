@@ -23,3 +23,14 @@
 .edit-profile-button:hover{
     background-color: rgb(233, 232, 232);
 }
+
+
+
+.darkButton-changes{
+ border-width: 0.5px !important;
+    border: white!important;
+}
+.darkButton-changes:hover{
+    border-color:rgb(206, 102, 102) !important;
+   
+}
