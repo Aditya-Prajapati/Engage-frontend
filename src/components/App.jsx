@@ -78,7 +78,7 @@ export default function App() {
         />
         <Route
           path="/signup"
-          element={<Signup setSignedUpMsg={setSignedUpMsg} />}
+          element={user ? <Navigate to="/home" replace /> : <Signup setSignedUpMsg={setSignedUpMsg} />}
         />
         <Route
           exact

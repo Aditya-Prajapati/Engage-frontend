@@ -11,6 +11,16 @@
   cursor: pointer;
 }
 
+.sidebar .dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
+}
+
+.sidebar .dropdown .dropdown-item .userInfo{
+  display: flex;
+  flex-direction: column;
+}
+
 .sidebar-nav-item:hover {
   border-radius: 50%;
   background-color: rgb(247, 249, 249);

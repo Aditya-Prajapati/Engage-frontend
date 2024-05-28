@@ -65,7 +65,7 @@ export default function Home(props) {
       <div className="d-inline-flex flex-column feed">
         <Header heading="Home" subHeading="" />
         <TweetArea
-          user={props.user}
+          user={props.user}f
           tweets={tweets}
           setTweets={setTweets}
           text="What's on your mind ?!"
