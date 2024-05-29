@@ -1,4 +1,4 @@
-#Trending:hover{
+#Trending:hover {
   background-color: rgb(247, 249, 249);
 }
 
@@ -39,6 +39,6 @@
 }
 
 /*------------------------------*/
-.trending-changes{
-  border-top-width:0px !important;
+.trending-changes {
+  border-top-width: 0px !important;
 }

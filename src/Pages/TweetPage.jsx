@@ -11,6 +11,7 @@ import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header";
 import Comments from "../components/Feed/Comments";
 import TweetArea from "../components/Feed/TweetArea";
+import { TweetSkeletonLoader } from "../components/SkeletonLoader";
 import { UserContext } from "../Context/UserContext";
 import DarkModeToggle from "../components/DarkModeButton/DarkModeButton";
 
@@ -22,7 +23,8 @@ export default function TweetPage(props) {
   const { username, tweetId, isComment } = useParams();
   const [newComment, setNewComment] = useState(false);
   const [commentClicked, setCommentClicked] = useState(null);
-  const {DarkMode , setDarkMode} = useContext(UserContext);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
+
   useEffect(() => {
     setCommentClicked(null);
     setTweet(null);
@@ -58,7 +60,9 @@ export default function TweetPage(props) {
     fetchComments();
   }, [tweetId, newComment]);
 
-  if (!tweet || !commentClicked) return <div> Loading... </div>;
+  // if (!tweet || !commentClicked) {
+  //     return <div> Loading... </div>;
+  // };
 
   return (
     <div
@@ -68,78 +72,93 @@ export default function TweetPage(props) {
       id="tweet-page"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         <Header heading="Tweet" subHeading="" />
 
-        <Tweet
-          tweet={tweet}
-          liked={tweet.likedBy.filter((likedBy) => {
-            return likedBy === props.user.username;
-          })}
-          user={{
-            name: tweet.name,
-            username: tweet.username,
-            picture: tweet.picture,
-          }}
-          currentUser={props.user}
-          disableDeleteTweet={true}
-          directComment={true}
-          tweetPage={true}
-          setNewComment={setNewComment}
-          threaded={true}
-        />
-        {commentClicked
-          .filter((comment) => comment !== null)
-          .map((comment, index) => {
-            let user = {
-              username: comment.username,
-              name: comment.name,
-              picture: comment.picture,
-            };
-            let liked = comment.likedBy.filter((likedBy) => {
+        {!tweet || !commentClicked ? (
+          <>
+            <TweetSkeletonLoader />
+            <TweetSkeletonLoader />
+          </>
+        ) : (
+          <Tweet
+            tweet={tweet}
+            liked={tweet.likedBy.filter((likedBy) => {
               return likedBy === props.user.username;
-            });
-            return (
-              <Tweet
-                key={index}
-                tweet={comment}
-                liked={liked}
-                user={user}
-                currentUser={props.user}
-                setNewComment={setNewComment}
-                threaded={true}
-                isComment={true}
-                disableDeleteTweet={true}
-              />
-            );
-          })}
-        <TweetArea
-          tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
-          user={props.user}
-          text="Tweet your reply!"
-          buttonText="Reply"
-          style={{ marginTop: "10px" }}
-          makeReply={true}
-          setNewComment={setNewComment}
-          comments={
-            commentClicked.at(-1)
-              ? commentClicked.at(-1).comments
-              : tweet.comments
-          }
-          isComment={commentClicked.at(-1) ? true : false}
-        />
+            })}
+            user={{
+              name: tweet.name,
+              username: tweet.username,
+              picture: tweet.picture,
+            }}
+            currentUser={props.user}
+            disableDeleteTweet={true}
+            directComment={true}
+            tweetPage={true}
+            setNewComment={setNewComment}
+            threaded={true}
+          />
+        )}
+        {!tweet || !commentClicked ? (
+          <TweetSkeletonLoader />
+        ) : (
+          commentClicked
+            .filter((comment) => comment !== null)
+            .map((comment, index) => {
+              let user = {
+                username: comment.username,
+                name: comment.name,
+                picture: comment.picture,
+              };
+              let liked = comment.likedBy.filter((likedBy) => {
+                return likedBy === props.user.username;
+              });
+              return (
+                <Tweet
+                  key={index}
+                  tweet={comment}
+                  liked={liked}
+                  user={user}
+                  currentUser={props.user}
+                  setNewComment={setNewComment}
+                  threaded={true}
+                  isComment={true}
+                  disableDeleteTweet={true}
+                />
+              );
+            })
+        )}
+        {tweet && commentClicked && (
+          <TweetArea
+            tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
+            user={props.user}
+            text="Tweet your reply!"
+            buttonText="Reply"
+            style={{ marginTop: "10px" }}
+            makeReply={true}
+            setNewComment={setNewComment}
+            comments={
+              commentClicked.at(-1)
+                ? commentClicked.at(-1).comments
+                : tweet.comments
+            }
+            isComment={commentClicked.at(-1) ? true : false}
+          />
+        )}
         <Header heading="Comments" subHeading="" />
-        <Comments
-          user={props.user}
-          tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
-          newComment={newComment}
-          setNewComment={setNewComment}
-          commentClicked={commentClicked}
-          setCommentClicked={setCommentClicked}
-        />
+        {tweet && commentClicked && (
+          <Comments
+            user={props.user}
+            tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
+            newComment={newComment}
+            setNewComment={setNewComment}
+            commentClicked={commentClicked}
+            setCommentClicked={setCommentClicked}
+          />
+        )}
 
         {isMobile && <MobileNavbar user={props.user} />}
       </div>

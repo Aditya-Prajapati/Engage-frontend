@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import NameAndId from "./NameAndId";
 import EditProfileButton from "../Buttons/EditProfileButton";
@@ -6,6 +6,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ProfileImage from "../ProfileImage";
 import "./ProfileBox.css";
 import axios from "axios";
+import { ProfileBoxSkeletonLoader } from "../SkeletonLoader/index.js";
 import { UserContext } from "../../Context/UserContext";
 const getUpdatedUser = (updatedUser) => {
   axios
@@ -20,14 +21,18 @@ const getUpdatedUser = (updatedUser) => {
 
 export default function ProfileBox(props) {
   const [updatedUser, setUpdatedUser] = useState(null);
-  const {DarkMode , setDarkMode} = useContext(UserContext);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
   useEffect(() => {
     getUpdatedUser(setUpdatedUser);
   }, [props.followUpdated]);
 
-  if (!updatedUser) return <div> Loading... </div>;
+  // if (!updatedUser){
+  //   return <div> Loading... </div>;
+  // }
 
-  return (
+  return !updatedUser ? (
+    <ProfileBoxSkeletonLoader />
+  ) : (
     <div>
       {/* Cover Image */}
       <div

@@ -7,10 +7,16 @@ import SentimentSatisfiedAltIcon from "@mui/icons-material/SentimentSatisfiedAlt
 import GeneralButton from "../Buttons/GeneralButton";
 import "./TweetArea.css";
 import { UserContext } from "../../Context/UserContext";
+import { TweetSkeletonLoader } from "../SkeletonLoader";
 
 export default function TweetArea(props) {
   const [tweetContent, setTweetContent] = useState("");
   const { DarkMode, setDarkMode } = useContext(UserContext);
+
+  if (!props.user) {
+    return <TweetSkeletonLoader />;
+  }
+
   const postTweet = async (e) => {
     e.preventDefault();
 
@@ -22,7 +28,7 @@ export default function TweetArea(props) {
           username: props.user.username,
           tweetContent: tweetContent.trim(),
         },
-        { withCredentials: true }
+        { withCredentials: true },
       )
       .then((res) => {
         if (res.status === 200) {
@@ -47,7 +53,7 @@ export default function TweetArea(props) {
           tweetId: props.tweet._id, // comments are treated as tweet, so this tweet could be a comment too
           tweetContent: tweetContent.trim(), // comment content
         },
-        { withCredentials: true }
+        { withCredentials: true },
       )
       .then((res) => {
         setTweetContent("");
@@ -64,7 +70,7 @@ export default function TweetArea(props) {
   };
 
   return (
-    <div className={"d-flex tweet-area"} >
+    <div className={"d-flex tweet-area"}>
       <ProfileImage
         style={{ margin: "4px 14px 0 0" }}
         width={props.width}

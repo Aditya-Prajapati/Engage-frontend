@@ -1,21 +1,31 @@
-.sidebar{
-    border-right: 0.9px solid rgb(211, 211, 211, 0.3);
-    height: 100vh;
-    position: fixed;
-    top: 0;
-    width: 13%;
-    z-index: 2;
+.sidebar {
+  border-right: 0.9px solid rgb(211, 211, 211, 0.3);
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  width: 13%;
+  z-index: 2;
 }
 
-.sidebar .dropdown{
-    cursor: pointer
+.sidebar .dropdown {
+  cursor: pointer;
 }
 
-.sidebar-nav-item:hover{
-    border-radius: 50%;
-    background-color: rgb(247, 249, 249);
+.sidebar .dropdown .dropdown-item {
+  display: flex;
+  align-items: center;
 }
 
-.sidebar-nav-item:active{
-    background-color: rgb(237, 239, 239);
+.sidebar .dropdown .dropdown-item .userInfo{
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-nav-item:hover {
+  border-radius: 50%;
+  background-color: rgb(247, 249, 249);
+}
+
+.sidebar-nav-item:active {
+  background-color: rgb(237, 239, 239);
 }

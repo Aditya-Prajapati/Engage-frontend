@@ -9,7 +9,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Comments from "./Comments";
 import Header from "../Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { UserContext } from "../../Context/UserContext";
 
@@ -27,7 +27,7 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
       {
         tweetId: tweet._id,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     )
     .then((res) => {
       if (res.status == 200) {
@@ -48,7 +48,7 @@ const handleLike = (tweet, setLikes, isComment, liked, setLiked) => {
         isComment: isComment,
         likes: tweet.likes,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     )
     .then((res) => {
       if (res.data.message == "Already liked") {
@@ -68,7 +68,7 @@ const handleComment = (
   setClickedCommentButton,
   clickedCommentButton,
   setCommentedBy,
-  isComment
+  isComment,
 ) => {
   if (clickedCommentButton) {
     setClickedCommentButton(false);
@@ -83,7 +83,7 @@ const handleComment = (
       {
         tweetId: tweet._id,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     )
     .then((res) => {
       setCommentedBy(res.data.commentedBy);
@@ -94,6 +94,8 @@ const handleComment = (
 };
 
 export default function Tweet(props) {
+  const { currentActiveAccountIdx } = useParams();
+
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [timeStamp, setTimeStamp] = useState(null);
   const [likes, setLikes] = useState(props.tweet.likes);
@@ -137,35 +139,39 @@ export default function Tweet(props) {
     }-${new Date().getFullYear()}`;
     let tweetDate = new Date(tweetYear + "-" + tweetMonth + "-" + tweetDay);
     let currDate = new Date(
-      DATE.split("-")[2] + "-" + DATE.split("-")[1] + "-" + DATE.split("-")[0]
+      DATE.split("-")[2] + "-" + DATE.split("-")[1] + "-" + DATE.split("-")[0],
     );
 
     if (currDate.getTime() === tweetDate.getTime()) {
       setTimeStamp(
-        Math.abs(parseInt(TIME.split(":")[0]) - parseInt(tweetHr)) + "h"
+        Math.abs(parseInt(TIME.split(":")[0]) - parseInt(tweetHr)) + "h",
       ); // within a day
     } else {
       setTimeStamp(
         tweetDay +
           " " +
-          tweetDate.toLocaleString("default", { month: "long" }).substr(0, 3)
+          tweetDate.toLocaleString("default", { month: "long" }).substr(0, 3),
       ); // not today
     }
 
     setTimeout(updateTimeStamp, 100000);
   };
 
-  setTimeout(updateTimeStamp, 0);
+  useEffect(() => {
+    updateTimeStamp();
+  }, []);
 
-  if (!timeStamp) return <div> Loading... </div>;
+  // if (!timeStamp) return <div> Loading... </div>;
 
   return (
-    <div className={`${DarkMode === true ? "darkMode tweet-darkMode-changes" :"" }`}>
+    <div
+      className={`${DarkMode === true ? "darkMode tweet-darkMode-changes" : ""}`}
+    >
       <div className="card" id="tweet" style={customStyle}>
         <div className="card-body">
           <div className="d-flex flex-column">
             <Link
-              to={`/${props.tweet.username}/${props.tweet._id}/${
+              to={`/u/${currentActiveAccountIdx}/${props.tweet.username}/${props.tweet._id}/${
                 props.isComment || false
               }`}
               style={{ textDecoration: "none", color: "black" }}
@@ -238,7 +244,7 @@ export default function Tweet(props) {
                           setClickedCommentButton,
                           clickedCommentButton,
                           setCommentedBy,
-                          props.isComment
+                          props.isComment,
                         );
                       }}
                       className="d-flex align-items-center card-link ms-1 options"
@@ -276,7 +282,7 @@ export default function Tweet(props) {
                           setLikes,
                           props.isComment,
                           liked,
-                          setLiked
+                          setLiked,
                         );
                       }}
                       className="d-flex align-items-center card-link ms-5 options"

@@ -10,9 +10,10 @@ import TweetArea from "../components/Feed/TweetArea";
 import Tweet from "../components/Feed/Tweet";
 import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header";
+import TweetSkeletonLoader from "../components/SkeletonLoader/TweetSkeletonLoader";
 import DarkModeButton from "../components/DarkModeButton/DarkModeButton";
-
 import { UserContext } from "../Context/UserContext";
+
 export default function Home(props) {
   const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
   const isTablet = useMediaQuery({ query: "(min-width: 600px)" });
@@ -34,7 +35,9 @@ export default function Home(props) {
             setTweets(res.data.tweets.reverse());
           }
 
-          setIsLoading(false);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
         })
         .catch((err) => {
           console.log(err);
@@ -44,9 +47,9 @@ export default function Home(props) {
     getTweets();
   }, []);
 
-  if (isLoading) {
-    return <div> Loading... </div>;
-  }
+  // if (isLoading) {
+  //   return <div> Loading... </div>;
+  // }
 
   return (
     <div
@@ -56,7 +59,7 @@ export default function Home(props) {
       id="home"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className="d-inline-flex flex-column feed">
@@ -67,38 +70,38 @@ export default function Home(props) {
           setTweets={setTweets}
           text="What's on your mind ?!"
           buttonText="Post"
-          width={52}
-          height={52}
         />
 
-        {tweets.map((tweet, index) => {
-          let user = {
-            name: tweet.name,
-            username: tweet.username,
-            picture: tweet.picture,
-            date: tweet.date,
-            time: tweet.time,
-          };
-          let liked = tweet.likedBy.filter((likedBy) => {
-            return likedBy === props.user.username;
-          });
-          return (
-            <Tweet
-              key={index}
-              tweet={tweet}
-              user={user}
-              liked={liked.length}
-              currentUser={props.user}
-              disableDeleteTweet={props.user.username !== user.username}
-              removeOptions={true}
-            />
-          );
-        })}
+        {isLoading
+          ? [...Array(6)].map((_, index) => <TweetSkeletonLoader key={index} />)
+          : tweets.map((tweet, index) => {
+              let user = {
+                name: tweet.name,
+                username: tweet.username,
+                picture: tweet.picture,
+                date: tweet.date,
+                time: tweet.time,
+              };
+              let liked = tweet.likedBy.filter((likedBy) => {
+                return likedBy === props.user.username;
+              });
+              return (
+                <Tweet
+                  key={index}
+                  tweet={tweet}
+                  user={user}
+                  liked={liked.length}
+                  currentUser={props.user}
+                  disableDeleteTweet={props.user.username !== user.username}
+                  removeOptions={true}
+                />
+              );
+            })}
 
         {isMobile && <MobileNavbar user={props.user} />}
       </div>
 
-      <div className={`d-inline-flex flex-column side-panel-container`}>
+      <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
             <Searchbar user={props.user} style={{ width: "100%" }} />

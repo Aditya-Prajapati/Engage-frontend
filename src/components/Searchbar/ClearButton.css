@@ -1,4 +1,4 @@
-.clearButton{
+.clearButton {
   width: 24px;
   height: 24px;
   background-color: rgba(29, 161, 242);
@@ -11,6 +11,6 @@
   justify-content: center;
 }
 
-.clearButton:hover{
-  background-color: rgb(34, 147, 216)
+.clearButton:hover {
+  background-color: rgb(34, 147, 216);
 }

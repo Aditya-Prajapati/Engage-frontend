@@ -1,4 +1,4 @@
-import React, { useEffect, useState , useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
@@ -11,6 +11,7 @@ import Tweet from "../components/Feed/Tweet";
 import SidePanel from "../components/SidePanel/SidePanel";
 import Header from "../components/Header/Header.jsx";
 import ProfileBox from "../components/ProfileBox/ProfileBox";
+import { TweetSkeletonLoader } from "../components/SkeletonLoader";
 import { UserContext } from "../Context/UserContext.js";
 import DarkModeToggle from "../components/DarkModeButton/DarkModeButton.jsx";
 
@@ -22,7 +23,10 @@ export default function Profile(props) {
   const location = useLocation();
   const { customUser } = location.state || {};
 
-  const isCustomUser = customUser && !isEmptyObject(customUser) && customUser.username !== props.user.username;
+  const isCustomUser =
+    customUser &&
+    !isEmptyObject(customUser) &&
+    customUser.username !== props.user.username;
   const user = isCustomUser ? customUser : props.user;
 
   const isDesktop = useMediaQuery({ query: "(min-width: 1000px)" });
@@ -33,7 +37,7 @@ export default function Profile(props) {
   const [isLoading, setIsLoading] = useState(true);
   const [tweets, setTweets] = useState(null);
   const [followUpdated, setFollowUpdated] = useState(false);
-  const { DarkMode , setDarkMode} = useContext(UserContext); 
+  const { DarkMode, setDarkMode } = useContext(UserContext);
 
   useEffect(() => {
     const getTweets = () => {
@@ -47,7 +51,9 @@ export default function Profile(props) {
             setTweets(res.data.tweets.reverse());
           }
 
-          setIsLoading(false);
+          setTimeout(() => {
+            setIsLoading(false);
+          }, 500);
           setDeleteTweet(false);
         })
         .catch((err) => {
@@ -58,9 +64,9 @@ export default function Profile(props) {
     getTweets();
   }, [deleteTweet, user]);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
+  // if (isLoading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <div
@@ -70,20 +76,22 @@ export default function Profile(props) {
       id="profile"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         <Header
           heading={user.name}
           subHeading={
-            tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet"
+            tweets &&
+            (tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet")
           }
           style={{ height: "75px" }}
         />
         <ProfileBox
           user={user}
           isCustomUser={isCustomUser}
+          customUser={customUser}
           setUser={props.setUser}
           followUpdated={followUpdated}
         />
@@ -92,20 +100,22 @@ export default function Profile(props) {
           style={{ height: "75px" }}
         />
 
-        {tweets.map((tweet, index) => {
-          let liked = tweet.likedBy.filter((likedBy) => {
-            return likedBy === user.username;
-          });
-          return (
-            <Tweet
-              key={index}
-              tweet={tweet}
-              liked={liked.length}
-              user={user}
-              setDeleteTweet={setDeleteTweet}
-            />
-          );
-        })}
+        {isLoading
+          ? [...Array(6)].map((_, index) => <TweetSkeletonLoader key={index} />)
+          : tweets.map((tweet, index) => {
+              let liked = tweet.likedBy.filter((likedBy) => {
+                return likedBy === user.username;
+              });
+              return (
+                <Tweet
+                  key={index}
+                  tweet={tweet}
+                  liked={liked.length}
+                  user={user}
+                  setDeleteTweet={setDeleteTweet}
+                />
+              );
+            })}
         {isMobile && <MobileNavbar user={props.user} />}
       </div>
 
