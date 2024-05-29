@@ -7,7 +7,7 @@ const handleFollow = (
   userToMap,
   setButtonText,
   followUpdated,
-  setFollowUpdated
+  setFollowUpdated,
 ) => {
   axios
     .post(
@@ -15,7 +15,7 @@ const handleFollow = (
       {
         userToMap: userToMap,
       },
-      { withCredentials: true }
+      { withCredentials: true },
     )
     .then((res) => {
       {
@@ -35,11 +35,10 @@ const handleFollow = (
 export default function GeneralButton(props) {
   /* (props.requestId == 0) -> followButton
    */
-
   return (
     <Link
       to={props.to}
-      className="d-flex align-items-center justify-content-center general-button-container"
+      className={`d-flex align-items-center justify-content-center general-button-container`}
     >
       <button
         onClick={() => {
@@ -48,7 +47,7 @@ export default function GeneralButton(props) {
               props.userToMap,
               props.setButtonText,
               props.followUpdated,
-              props.setFollowUpdated
+              props.setFollowUpdated,
             );
         }}
         className={"general-button " + props.className}

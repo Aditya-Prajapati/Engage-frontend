@@ -1,6 +1,12 @@
 import axios from "axios";
 
-export function getUsers(request, path, setUsersToMap, setUpdatedUser, toSearch){
+export function getUsers(
+  request,
+  path,
+  setUsersToMap,
+  setUpdatedUser,
+  toSearch,
+) {
   axios
     .get("http://localhost:8000/user/getusers", {
       withCredentials: true,
@@ -19,8 +25,8 @@ export function getUsers(request, path, setUsersToMap, setUpdatedUser, toSearch)
         users = res.data.randomUsers.length === 0 ? [] : res.data.randomUsers;
       }
       setTimeout(() => {
-        setUsersToMap(users)
-      }, 500) // timeout increased for loading animation
+        setUsersToMap(users);
+      }, 500); // timeout increased for loading animation
     })
     .catch((err) => {
       console.log(err);

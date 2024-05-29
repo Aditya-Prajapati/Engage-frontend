@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import SidePanelItem from "./SidePanelItem";
 import "./SidePanel.css";
 import { SidePanelItemSkeletonLoader } from "../SkeletonLoader/index.js";
 import { getUsers } from "../../Utils/utils";
+import { UserContext } from "../../Context/UserContext";
 
 export default function SidePanel(props) {
   /* (props.requestId == 0) -> followers
@@ -11,6 +12,7 @@ export default function SidePanel(props) {
 
   const [usersToMap, setUsersToMap] = useState(null);
   const [updatedUser, setUpdatedUser] = useState(null);
+  const { DarkMode, setDarkMode } = useContext(UserContext);
 
   let customItemStyle = {
     backgroundColor: "white",
@@ -34,7 +36,9 @@ export default function SidePanel(props) {
   return (
     <div
       className={
-        "d-inline-flex bgc-white side-panel box-shadow " + props.classNames
+        `d-inline-flex bgc-white side-panel box-shadow ${
+          DarkMode === true ? "darkMode" : ""
+        }` + props.classNames
       }
       style={props.style}
     >

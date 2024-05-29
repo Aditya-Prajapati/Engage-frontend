@@ -1,6 +1,10 @@
 import React from "react";
 // import "./SidePanelItemSkeletonLoader.css";
-import { ImageSkeletonLoader, NameAndIdSkeletonLoader, ButtonSkeletonLoader } from "./index.js";
+import {
+  ImageSkeletonLoader,
+  NameAndIdSkeletonLoader,
+  ButtonSkeletonLoader,
+} from "./index.js";
 import "../SidePanel/SidePanel.css";
 
 const SidePanelItemSkeletonLoader = () => {

@@ -1,0 +1,2 @@
+1. To format all files at once, go to root directory and run the command: npx prettier --write .
+2. Tab spacing: 2

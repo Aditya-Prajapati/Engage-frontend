@@ -1,20 +1,31 @@
-*{
-    margin: 0;
-    padding: 0;
+body {
+  margin: 0;
+  padding: 0;
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+body.dark-mode {
+  background-color: black !important;
+  color: white;
 }
 
 /* Generics */
 
 /* Utilities */
-.bgc-white{
-    background-color: rgb(247, 249, 249);
+.bgc-white {
+  background-color: rgb(247, 249, 249);
 }
 
-.anchor{
-    text-decoration: none;
-    color: rgb(83, 100, 113);
+.bgc-black {
+  background-color: black;
+}
+.anchor {
+  text-decoration: none;
+  color: rgb(83, 100, 113);
 }
 
-.box-shadow{
-    box-shadow: 0 0 3px 0 #00000022;
+.box-shadow {
+  box-shadow: 0 0 3px 0 #00000022;
 }
