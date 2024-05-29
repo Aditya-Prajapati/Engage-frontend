@@ -19,9 +19,9 @@ export default function Section(props) {
           <Link
             to={
               section === "Followers"
-                ? `/profile/${props.user.username}/followers`
+                ? `/u/${currentActiveAccountIdx}/profile/${props.user.username}/followers`
                 : section === "Following"
-                  ? `/profile/${props.user.username}/following`
+                  ? `/u/${currentActiveAccountIdx}/profile/${props.user.username}/following`
                   : "#"
             }
             key={index}

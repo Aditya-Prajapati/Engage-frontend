@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import "./LoginStyle.css";
 import axios from "axios";
 import LoginButton from "./LoginButton";
@@ -10,8 +10,10 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { UserContext } from "../Context/UserContext";
 import DarkModeButton from "../components/DarkModeButton/DarkModeButton";
+
 export default function Login(props) {
   const navigate = useNavigate();
+  const { currentActiveAccountIdx } = useParams();
 
   const [email, setEmail] = useState("");
   const [pswrd, setPswrd] = useState("");
@@ -37,9 +39,9 @@ export default function Login(props) {
         .then((res) => {
           if (res.status === 200) {
             props.setUser(res.data.user);
-            navigate("/home");
+            navigate(`/u/${currentActiveAccountIdx}/home`);
           } else {
-            navigate("/login");
+            navigate(`/u/${currentActiveAccountIdx}/login`);
           }
         });
     } catch (err) {

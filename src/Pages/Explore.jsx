@@ -27,7 +27,7 @@ export default function Explore(props) {
       }`}
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className="d-inline-flex flex-column feed">

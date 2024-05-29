@@ -59,13 +59,13 @@ export default function Home(props) {
       id="home"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar user={props.user} />}
+        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         <Header heading="Home" subHeading="" />
         <TweetArea
-          user={props.user}f
+          user={props.user}
           tweets={tweets}
           setTweets={setTweets}
           text="What's on your mind ?!"

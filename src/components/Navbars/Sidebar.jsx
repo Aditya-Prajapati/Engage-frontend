@@ -1,5 +1,5 @@
 import React from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { redirect, useNavigate, useParams } from "react-router-dom";
 import NavItem from "./NavItem";
 import { faHouse, faHashtag, faUser } from "@fortawesome/free-solid-svg-icons";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -14,6 +14,7 @@ import {
 
 export default function Sidebar(props) {
   const navigate = useNavigate();
+  const { currentActiveAccountIdx } = useParams();
 
   const handleLogout = () => {
     axios
@@ -29,12 +30,27 @@ export default function Sidebar(props) {
   const handleAddAccount = () => {
     navigate("/");
   };
-  console.log(props.user);
+
+  const handleAccountIdxChange = (idx) => {
+    axios
+      .post(
+        "http://localhost:8000/user/updateCurrentActiveUser",
+        { idx: idx },
+        { withCredentials: true }
+      )
+      .then((res) => {
+        props.setCurrentActiveAccountIdx(idx);
+        navigate(`/u/${idx}/home`);
+      })
+      .catch((err) => {
+        console.log("Error in handleAccountIdxChange: ", err);
+      });
+  };
 
   return (
     <div className="d-inline-flex flex-column align-items-end p-2 sidebar">
       {/* Main Logo */}
-      <a href="/home" className="p-3">
+      <a href={`/u/${currentActiveAccountIdx}/home`} className="p-3">
         <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
       </a>
 
@@ -42,7 +58,7 @@ export default function Sidebar(props) {
       <ul className="nav flex-column mb-auto text-center">
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
           <NavItem
-            link="/home"
+            link={`/u/${currentActiveAccountIdx}/home`}
             iconName={faHouse}
             iconColor={"#282829"}
             iconSize={"xl"}
@@ -50,7 +66,7 @@ export default function Sidebar(props) {
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
           <NavItem
-            link="/explore"
+            link={`/u/${currentActiveAccountIdx}/explore`}
             iconName={faHashtag}
             iconColor={"#282829"}
             iconSize={"xl"}
@@ -58,7 +74,7 @@ export default function Sidebar(props) {
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
           <NavItem
-            link="/profile"
+            link={`/u/${currentActiveAccountIdx}/profile`}
             iconName={faUser}
             iconColor={"#282829"}
             iconSize={"xl"}
@@ -84,7 +100,12 @@ export default function Sidebar(props) {
           ) : (
             props.user.activeAccounts.map((activeAccount, idx) => {
               return (
-                <li className="dropdown-item">
+                <li
+                  className="dropdown-item"
+                  onClick={() => {
+                    handleAccountIdxChange(idx);
+                  }}
+                >
                   <ProfileImage
                     user={activeAccount.user}
                     style={{ marginRight: "6px" }}

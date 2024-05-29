@@ -44,7 +44,7 @@ export default function SidePanelItem(props) {
   return (
     <Link
       className={`side-panel-item-container ${DarkMode === true ? "darkMode sidePanelItem-DarkMode hovering-class" : ""}`}
-      to="/profile"
+      to={`/u/${currentActiveAccountIdx}/profile`}
       state={{ customUser: props.userToMap }}
     >
       <li

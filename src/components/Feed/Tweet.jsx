@@ -9,7 +9,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import axios from "axios";
 import Comments from "./Comments";
 import Header from "../Header/Header";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { UserContext } from "../../Context/UserContext";
 
@@ -94,6 +94,8 @@ const handleComment = (
 };
 
 export default function Tweet(props) {
+  const { currentActiveAccountIdx } = useParams();
+
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [timeStamp, setTimeStamp] = useState(null);
   const [likes, setLikes] = useState(props.tweet.likes);
@@ -169,7 +171,7 @@ export default function Tweet(props) {
         <div className="card-body">
           <div className="d-flex flex-column">
             <Link
-              to={`/${props.tweet.username}/${props.tweet._id}/${
+              to={`/u/${currentActiveAccountIdx}/${props.tweet.username}/${props.tweet._id}/${
                 props.isComment || false
               }`}
               style={{ textDecoration: "none", color: "black" }}

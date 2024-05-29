@@ -3,11 +3,12 @@ import NavItem from "./NavItem";
 import "./MobileNavbar.css";
 import ProfileImage from "../ProfileImage";
 import { faHouse, faHashtag, faUser } from "@fortawesome/free-solid-svg-icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function MobileNavbar(props) {
   const navigate = useNavigate();
+  const { currentActiveAccountIdx } = useParams();
 
   function handleLogout() {
     axios
@@ -25,7 +26,7 @@ export default function MobileNavbar(props) {
       <ul className="nav justify-content-between align-items-center mx-4">
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={"/home"}
+            link={`/u/${currentActiveAccountIdx}/home`}
             iconName={faHouse}
             iconColor={"black"}
             iconSize={"l"}
@@ -33,7 +34,7 @@ export default function MobileNavbar(props) {
         </div>
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={"/explore"}
+            link={`/u/${currentActiveAccountIdx}/explore`}
             iconName={faHashtag}
             iconColor={"black"}
             iconSize={"l"}
@@ -41,7 +42,7 @@ export default function MobileNavbar(props) {
         </div>
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={"/profile"}
+            link={`/u/${currentActiveAccountIdx}/profile`}
             iconName={faUser}
             iconColor={"black"}
             iconSize={"l"}

@@ -21,6 +21,7 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [signedUpMsg, setSignedUpMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const [currentActiveAccountIdx, setCurrentActiveAccountIdx] = useState(0);
   const location = useLocation();
 
   const { DarkMode } = useContext(UserContext);
@@ -34,11 +35,13 @@ export default function App() {
   }, [DarkMode]);
 
   useEffect(() => {
+    let tempUser = user;
+    setUser("")
     const getUser = async () => {
       try {
         const response = await axios.get(
           "http://localhost:8000/auth/login/success",
-          { withCredentials: true },
+          { withCredentials: true }
         );
 
         if (response.status === 200) {
@@ -51,18 +54,19 @@ export default function App() {
       } finally {
         setSignedUpMsg("");
         setIsLoading(false);
+        setUser(!user?tempUser:user)
       }
     };
 
     getUser();
-  }, []);
+  }, [currentActiveAccountIdx]);
 
   if (isLoading) {
-    // if (location.pathname == "/profile"){
+    // if (location.pathname == `/u/${currentActiveAccountIdx}/profile`){
     //     return <Profile />;
     // }
     // else
-    if (location.pathname == "/explore") {
+    if (location.pathname == `/u/${currentActiveAccountIdx}/explore`) {
       return <Explore />;
     } else {
       return <Home />;
@@ -78,38 +82,74 @@ export default function App() {
         />
         <Route
           path="/signup"
-          element={user ? <Navigate to="/home" replace /> : <Signup setSignedUpMsg={setSignedUpMsg} />}
+          element={<Signup setSignedUpMsg={setSignedUpMsg} />}
         />
         <Route
           exact
-          path="/home"
-          element={user ? <Home user={user} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          path=":username/:tweetId/:isComment"
-          element={
-            user ? <TweetPage user={user} /> : <Navigate to="/" replace />
-          }
-        />
-        <Route
-          path="/explore"
-          element={user ? <Explore user={user} /> : <Navigate to="/" replace />}
-        />
-        <Route
-          exact
-          path="/profile"
+          path={`/u/${currentActiveAccountIdx}/home`}
           element={
             user ? (
-              <Profile user={user} setUser={setUser} />
+              <Home
+                user={user}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
             ) : (
               <Navigate to="/" replace />
             )
           }
         />
         <Route
-          path="/profile/:username/:path"
+          path={`/u/${currentActiveAccountIdx}/:username/:tweetId/:isComment`}
           element={
-            user ? <FollowPage user={user} /> : <Navigate to="/" replace />
+            user ? (
+              <TweetPage
+                user={user}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path={`/u/${currentActiveAccountIdx}/explore`}
+          element={
+            user ? (
+              <Explore
+                user={user}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          exact
+          path={`/u/${currentActiveAccountIdx}/profile`}
+          element={
+            user ? (
+              <Profile
+                user={user}
+                setUser={setUser}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
+          }
+        />
+        <Route
+          path={`/u/${currentActiveAccountIdx}/profile/:username/:path`}
+          element={
+            user ? (
+              <FollowPage
+                user={user}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to="/" replace />
+            )
           }
         />
         <Route path="*" element={<NotFound />} />
