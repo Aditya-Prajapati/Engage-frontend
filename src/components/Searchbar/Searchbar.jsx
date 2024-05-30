@@ -76,6 +76,7 @@ export default function Searchbar(props) {
                 usersToMap.map((userToMap, index) => {
                   return (
                     <SidePanelItem
+                      currentActiveAccountIdx={props.currentActiveAccountIdx}
                       key={index}
                       user={updatedUser || props.user}
                       followUpdated={followUpdated}

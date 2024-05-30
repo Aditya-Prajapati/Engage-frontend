@@ -36,11 +36,12 @@ export default function App() {
 
   useEffect(() => {
     let tempUser = user;
-    setUser("")
+    setUser(null);
     const getUser = async () => {
       try {
+        // "http://localhost:8000/auth/login/success",
         const response = await axios.get(
-          "http://localhost:8000/auth/login/success",
+          "http://localhost:8000/user/getuser",
           { withCredentials: true }
         );
 
@@ -51,22 +52,22 @@ export default function App() {
         }
       } catch (error) {
         console.log(error);
+        setUser(user && tempUser);
       } finally {
         setSignedUpMsg("");
         setIsLoading(false);
-        setUser(!user?tempUser:user)
       }
     };
 
     getUser();
-  }, [currentActiveAccountIdx]);
+  }, []);
 
-  if (isLoading) {
-    // if (location.pathname == `/u/${currentActiveAccountIdx}/profile`){
+  if (isLoading) { 
+    // if (location.pathname == `/u/:currentActiveAccountIdx/profile`){
     //     return <Profile />;
     // }
     // else
-    if (location.pathname == `/u/${currentActiveAccountIdx}/explore`) {
+    if (location.pathname == `/u/:currentActiveAccountIdx/explore`) {
       return <Explore />;
     } else {
       return <Home />;
@@ -78,19 +79,33 @@ export default function App() {
       <Routes>
         <Route
           path="/"
-          element={<Login signedUpMsg={signedUpMsg} setUser={setUser} />}
+          element={
+            <Login
+              signedUpMsg={signedUpMsg}
+              setUser={setUser}
+              currentActiveAccountIdx={currentActiveAccountIdx}
+              setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+            />
+          }
         />
         <Route
           path="/signup"
-          element={<Signup setSignedUpMsg={setSignedUpMsg} />}
+          element={
+            <Signup
+              setSignedUpMsg={setSignedUpMsg}
+              currentActiveAccountIdx={currentActiveAccountIdx}
+              setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+            />
+          }
         />
         <Route
           exact
-          path={`/u/${currentActiveAccountIdx}/home`}
+          path={`/u/:currentActiveAccountIdx/home`}
           element={
             user ? (
               <Home
                 user={user}
+                currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -99,11 +114,12 @@ export default function App() {
           }
         />
         <Route
-          path={`/u/${currentActiveAccountIdx}/:username/:tweetId/:isComment`}
+          path={`/u/:currentActiveAccountIdx/:username/:tweetId/:isComment`}
           element={
             user ? (
               <TweetPage
                 user={user}
+                currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -112,11 +128,12 @@ export default function App() {
           }
         />
         <Route
-          path={`/u/${currentActiveAccountIdx}/explore`}
+          path={`/u/:currentActiveAccountIdx/explore`}
           element={
             user ? (
               <Explore
                 user={user}
+                currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -126,12 +143,13 @@ export default function App() {
         />
         <Route
           exact
-          path={`/u/${currentActiveAccountIdx}/profile`}
+          path={`/u/:currentActiveAccountIdx/profile`}
           element={
             user ? (
               <Profile
                 user={user}
                 setUser={setUser}
+                currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -140,11 +158,12 @@ export default function App() {
           }
         />
         <Route
-          path={`/u/${currentActiveAccountIdx}/profile/:username/:path`}
+          path={`/u/:currentActiveAccountIdx/profile/:username/:path`}
           element={
             user ? (
               <FollowPage
                 user={user}
+                currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (

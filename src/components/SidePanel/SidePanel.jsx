@@ -52,6 +52,7 @@ export default function SidePanel(props) {
           : usersToMap.map((userToMap, index) => {
               return (
                 <SidePanelItem
+                  currentActiveAccountIdx={props.currentActiveAccountIdx}
                   key={index}
                   user={updatedUser || props.user}
                   followUpdated={props.followUpdated}

@@ -24,9 +24,7 @@ export function getUsers(
       } else {
         users = res.data.randomUsers.length === 0 ? [] : res.data.randomUsers;
       }
-      setTimeout(() => {
-        setUsersToMap(users);
-      }, 500); // timeout increased for loading animation
+      setUsersToMap(users);
     })
     .catch((err) => {
       console.log(err);

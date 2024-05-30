@@ -13,7 +13,6 @@ import DarkModeButton from "../components/DarkModeButton/DarkModeButton";
 
 export default function Login(props) {
   const navigate = useNavigate();
-  const { currentActiveAccountIdx } = useParams();
 
   const [email, setEmail] = useState("");
   const [pswrd, setPswrd] = useState("");
@@ -35,18 +34,23 @@ export default function Login(props) {
               "Content-Type": "application/json",
             },
           },
-        )
-        .then((res) => {
+        ) 
+        .then(async (res) => {
           if (res.status === 200) {
-            props.setUser(res.data.user);
-            navigate(`/u/${currentActiveAccountIdx}/home`);
+            let user = res.data.user;
+            let userIdx = user.activeAccounts.findIndex(account =>
+              account.user.username === user.currentActiveAccount.user.username
+            );
+            props.setCurrentActiveAccountIdx(userIdx);
+            props.setUser(user);
+            navigate(`/u/${userIdx}/home`);            
           } else {
-            navigate(`/u/${currentActiveAccountIdx}/login`);
+            navigate(`/`);
           }
-        });
+        }); 
     } catch (err) {
-      console.log(err);
       setLoginMsg("Invalid Credentials");
+      console.log(err);
     }
   };
 
@@ -66,8 +70,8 @@ export default function Login(props) {
           Sign in to <span style={{ color: "#1DA1F2" }}> Twitter Clone </span>
         </h3>
         {/* icon={<GoogleIcon />} */}
-        <LoginButton
-          link="http://localhost:8000/auth/google"
+        <LoginButton 
+          isGoogleLogin={true}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

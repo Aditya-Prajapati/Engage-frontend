@@ -10,6 +10,7 @@ import axios from "axios";
 import Tweet from "./Tweet";
 import { TweetSkeletonLoader } from "../SkeletonLoader";
 import { UserContext } from "../../Context/UserContext";
+
 export default function Comments(props) {
   const [likes, setLikes] = useState(props.tweet.likes);
   const [comments, setComments] = useState(0);
@@ -25,7 +26,7 @@ export default function Comments(props) {
           {
             tweetId: props.tweet._id, // might be the commentId, bcz comment is treated as tweet
           },
-          { withCredentials: true },
+          { withCredentials: true }
         )
         .then((res) => {
           setCommentedBy(res.data.comments.reverse());
@@ -61,6 +62,7 @@ export default function Comments(props) {
         });
         return (
           <Tweet
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             key={index}
             tweet={commentBy}
             liked={liked.length}

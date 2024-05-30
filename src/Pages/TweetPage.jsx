@@ -72,11 +72,21 @@ export default function TweetPage(props) {
       id="tweet-page"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
+        {(isTablet || isDesktop) && (
+          <Sidebar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className="d-inline-flex flex-column feed">
-        <Header heading="Tweet" subHeading="" />
+        <Header
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
+          heading="Tweet"
+          subHeading=""
+        />
 
         {!tweet || !commentClicked ? (
           <>
@@ -85,6 +95,7 @@ export default function TweetPage(props) {
           </>
         ) : (
           <Tweet
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             tweet={tweet}
             liked={tweet.likedBy.filter((likedBy) => {
               return likedBy === props.user.username;
@@ -118,6 +129,7 @@ export default function TweetPage(props) {
               });
               return (
                 <Tweet
+                  currentActiveAccountIdx={props.currentActiveAccountIdx}
                   key={index}
                   tweet={comment}
                   liked={liked}
@@ -133,6 +145,7 @@ export default function TweetPage(props) {
         )}
         {tweet && commentClicked && (
           <TweetArea
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
             user={props.user}
             text="Tweet your reply!"
@@ -148,9 +161,14 @@ export default function TweetPage(props) {
             isComment={commentClicked.at(-1) ? true : false}
           />
         )}
-        <Header heading="Comments" subHeading="" />
+        <Header
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
+          heading="Comments"
+          subHeading=""
+        />
         {tweet && commentClicked && (
           <Comments
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             user={props.user}
             tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
             newComment={newComment}
@@ -160,14 +178,26 @@ export default function TweetPage(props) {
           />
         )}
 
-        {isMobile && <MobileNavbar user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
-            <Searchbar user={props.user} style={{ width: "100%" }} />
-            <SidePanel user={props.user} />
+            <Searchbar
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+              style={{ width: "100%" }}
+            />
+            <SidePanel
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+            />
           </div>
         )}
       </div>
