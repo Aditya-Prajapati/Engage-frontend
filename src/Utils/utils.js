@@ -13,12 +13,12 @@ export function getUsers(
       params: { users: request, toSearch: toSearch },
     })
     .then((res) => {
-      setUpdatedUser(res.data.user);
+      setUpdatedUser(res.data.currentActiveUser);
       let users;
       if (path === "following") {
-        users = res.data.user.follows;
+        users = res.data.currentActiveUser.follows;
       } else if (path === "followers") {
-        users = res.data.user.followedBy;
+        users = res.data.currentActiveUser.followedBy;
       } else if (path === "search") {
         users = res.data.users;
       } else {

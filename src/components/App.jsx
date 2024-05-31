@@ -18,11 +18,15 @@ import FollowPage from "../Pages/FollowPage";
 import { UserContext } from "../Context/UserContext";
 
 export default function App() {
+  const location = useLocation();
+  const addAccountRoute = location.state?.addAccountRoute ?? null;
+  const params = useParams();
+
   const [user, setUser] = useState(null);
+  const [parentUser, setParentUser] = useState(null);
   const [signedUpMsg, setSignedUpMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [currentActiveAccountIdx, setCurrentActiveAccountIdx] = useState(0);
-  const location = useLocation();
+  const [currentActiveAccountIdx, setCurrentActiveAccountIdx] = useState(params.currentActiveAccountIdx);
 
   const { DarkMode } = useContext(UserContext);
 
@@ -35,34 +39,41 @@ export default function App() {
   }, [DarkMode]);
 
   useEffect(() => {
-    let tempUser = user;
-    setUser(null);
     const getUser = async () => {
       try {
-        // "http://localhost:8000/auth/login/success",
         const response = await axios.get(
-          "http://localhost:8000/user/getuser",
-          { withCredentials: true }
+          "http://localhost:8000/auth/login/success",
+          {
+            // params: { currentActiveUser: true },
+            withCredentials: true,
+          }
         );
 
         if (response.status === 200) {
-          setUser(response.data.user);
+          let user = response.data.currentActiveUser;
+          let parentUser = response.data.user;
+          setUser(user);
+          setParentUser(parentUser);
+          let userIdx = parentUser.activeAccounts.findIndex(
+            (account) =>
+              account.user.username ===
+              parentUser.currentActiveAccount.user.username
+          );
+          setCurrentActiveAccountIdx(userIdx);
         } else {
           throw new Error("Login failed.");
         }
       } catch (error) {
-        console.log(error);
-        setUser(user && tempUser);
+        console.log(error.message);
       } finally {
         setSignedUpMsg("");
         setIsLoading(false);
       }
     };
-
     getUser();
   }, []);
 
-  if (isLoading) { 
+  if (isLoading) {
     // if (location.pathname == `/u/:currentActiveAccountIdx/profile`){
     //     return <Profile />;
     // }
@@ -80,22 +91,33 @@ export default function App() {
         <Route
           path="/"
           element={
-            <Login
-              signedUpMsg={signedUpMsg}
-              setUser={setUser}
-              currentActiveAccountIdx={currentActiveAccountIdx}
-              setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
-            />
+            !user || (user && addAccountRoute) ? (
+              <Login
+                addAccountRoute={addAccountRoute}
+                signedUpMsg={signedUpMsg}
+                setUser={setUser}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
+                currentActiveAccountIdx={currentActiveAccountIdx}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to={`/u/${currentActiveAccountIdx}/home`} replace />
+            )
           }
         />
         <Route
           path="/signup"
           element={
-            <Signup
-              setSignedUpMsg={setSignedUpMsg}
-              currentActiveAccountIdx={currentActiveAccountIdx}
-              setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
-            />
+            !user || (user && addAccountRoute) ? (
+              <Signup
+                setSignedUpMsg={setSignedUpMsg}
+                currentActiveAccountIdx={currentActiveAccountIdx}
+                setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
+              />
+            ) : (
+              <Navigate to={`/u/${currentActiveAccountIdx}/home`} replace />
+            )
           }
         />
         <Route
@@ -105,7 +127,10 @@ export default function App() {
             user ? (
               <Home
                 user={user}
+                setUser={setUser}
                 currentActiveAccountIdx={currentActiveAccountIdx}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -119,7 +144,10 @@ export default function App() {
             user ? (
               <TweetPage
                 user={user}
+                setUser={setUser}
                 currentActiveAccountIdx={currentActiveAccountIdx}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
             ) : (
@@ -133,6 +161,9 @@ export default function App() {
             user ? (
               <Explore
                 user={user}
+                setUser={setUser}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
                 currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
@@ -149,6 +180,8 @@ export default function App() {
               <Profile
                 user={user}
                 setUser={setUser}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
                 currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />
@@ -163,6 +196,9 @@ export default function App() {
             user ? (
               <FollowPage
                 user={user}
+                setUser={setUser}
+                parentUser={parentUser}
+                setParentUser={setParentUser}
                 currentActiveAccountIdx={currentActiveAccountIdx}
                 setCurrentActiveAccountIdx={setCurrentActiveAccountIdx}
               />

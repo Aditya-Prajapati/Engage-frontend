@@ -29,9 +29,12 @@ export default function Explore(props) {
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && (
           <Sidebar
+            parentUser={props.parentUser}
+            setParentUser={props.setParentUser}
             currentActiveAccountIdx={props.currentActiveAccountIdx}
             setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
             user={props.user}
+            setUser={props.setUser}
           />
         )}
       </div>
@@ -78,7 +81,12 @@ export default function Explore(props) {
           />
         )}
 
-        {isMobile && <MobileNavbar currentActiveAccountIdx={props.currentActiveAccountIdx} user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>

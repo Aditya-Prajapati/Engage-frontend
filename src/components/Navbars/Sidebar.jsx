@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import NavItem from "./NavItem";
 import { faHouse, faHashtag, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -14,11 +14,13 @@ import {
 
 export default function Sidebar(props) {
   const navigate = useNavigate();
+  const [updatingUser, setUpdatingUser] = useState(false);
 
   const handleLogout = () => {
     axios
       .post("http://localhost:8000/auth/logout", {}, { withCredentials: true })
       .then((res) => {
+        props.setUser(null);
         navigate("/");
       })
       .catch((err) => {
@@ -27,10 +29,11 @@ export default function Sidebar(props) {
   };
 
   const handleAddAccount = () => {
-    navigate("/");
+    navigate("/", { state: { addAccountRoute: true } });
   };
 
   const handleAccountIdxChange = (idx) => {
+    setUpdatingUser(true);
     axios
       .post(
         "http://localhost:8000/user/updateCurrentActiveUser",
@@ -39,10 +42,14 @@ export default function Sidebar(props) {
       )
       .then(async (res) => {
         props.setCurrentActiveAccountIdx(idx);
+        props.setUser(res.data.updatedUser);
         navigate(`/u/${idx}/home`);
       })
       .catch((err) => {
         console.log("Error in handleAccountIdxChange: ", err);
+      })
+      .finally(() => {
+        setUpdatingUser(false);
       });
   };
 
@@ -56,28 +63,40 @@ export default function Sidebar(props) {
       {/* Icons */}
       <ul className="nav flex-column mb-auto text-center">
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${props.currentActiveAccountIdx}/home`}
-            iconName={faHouse}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/home`}
+              iconName={faHouse}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${props.currentActiveAccountIdx}/explore`}
-            iconName={faHashtag}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/explore`}
+              iconName={faHashtag}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${props.currentActiveAccountIdx}/profile`}
-            iconName={faUser}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/profile`}
+              iconName={faUser}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
       </ul>
 
@@ -87,7 +106,7 @@ export default function Sidebar(props) {
           className="d-flex align-items-center justify-content-center p-3 link-body-emphasis dropdown-toggle"
           data-bs-toggle="dropdown"
         >
-          {!props.user ? (
+          {!props.user || updatingUser ? (
             <ImageSkeletonLoader />
           ) : (
             <ProfileImage width={46} height={46} user={props.user} />
@@ -95,13 +114,13 @@ export default function Sidebar(props) {
         </div>
 
         <ul className="dropdown-menu text-small shadow">
-          {!props.user ? (
+          {!props.parentUser ? (
             <div className="d-flex">
               <ImageSkeletonLoader />
               <NameAndIdSkeletonLoader />
             </div>
           ) : (
-            props.user.activeAccounts.map((activeAccount, idx) => {
+            props.parentUser.activeAccounts.map((activeAccount, idx) => {
               return (
                 <li
                   className="dropdown-item"
@@ -142,9 +161,9 @@ export default function Sidebar(props) {
           </li>
           <li>
             <a className="dropdown-item" onClick={handleLogout}>
-              {!props.user ? (
+              {!props.parentUser ? (
                 <NameAndIdSkeletonLoader />
-              ) : props.user.activeAccounts.length <= 1 ? (
+              ) : props.parentUser.activeAccounts.length <= 1 ? (
                 "Sign out"
               ) : (
                 "Sign out of all accounts"

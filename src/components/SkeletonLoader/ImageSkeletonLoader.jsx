@@ -1,11 +1,11 @@
 import React from "react";
 import "./ImageSkeletonLoader.css";
 
-const ImageSkeletonLoader = ({ width, height, animationDelay }) => {
+const ImageSkeletonLoader = ({ width, height, animationDelay, customStyles }) => {
   return (
     <div
       className="skeleton-image skeleton-animation"
-      style={{ width, height, animationDelay }}
+      style={{ width, height, animationDelay, ...customStyles }}
     ></div>
   );
 };

@@ -35,9 +35,12 @@ export default function FollowPage(props) {
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && (
           <Sidebar
+            parentUser={props.parentUser} 
+            setParentUser={props.setParentUser}
             currentActiveAccountIdx={props.currentActiveAccountIdx}
             setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
             user={props.user}
+            setUser={props.setUser}
           />
         )}
       </div>
