@@ -75,3 +75,7 @@
 .darkMode-noBorder {
   border: 0px !important;
 }
+
+.darkMode-skeltonChanges{
+  background-color: grey !important; 
+}

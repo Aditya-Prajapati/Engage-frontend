@@ -26,15 +26,21 @@ export default function App() {
   const [parentUser, setParentUser] = useState(null);
   const [signedUpMsg, setSignedUpMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
-  const [currentActiveAccountIdx, setCurrentActiveAccountIdx] = useState(params.currentActiveAccountIdx);
+  const [currentActiveAccountIdx, setCurrentActiveAccountIdx] = useState(
+    params.currentActiveAccountIdx
+  );
 
   const { DarkMode } = useContext(UserContext);
 
   useEffect(() => {
     if (DarkMode) {
       document.body.classList.add("dark-mode");
+      document.body.style.backgroundColor = "black";
+      document.body.style.color = "white";
     } else {
       document.body.classList.remove("dark-mode");
+      document.body.style.backgroundColor = "";
+      document.body.style.color = "";
     }
   }, [DarkMode]);
 

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import { UserContext } from "../../Context/UserContext";
 // import "./ProfileBoxSkeletonLoader.css";
 import "../ProfileBox/ProfileBox.css";
 import { ImageSkeletonLoader, NameAndIdSkeletonLoader } from "./index.js";
 
 const ProfileBoxSkeletonLoader = () => {
+  const { DarkMode } = useContext(UserContext);
   return (
     <div>
       <div className="profile-box-bg"></div>
