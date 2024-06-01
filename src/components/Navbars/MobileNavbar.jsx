@@ -8,7 +8,7 @@ import axios from "axios";
 
 export default function MobileNavbar(props) {
   const navigate = useNavigate();
-  const { currentActiveAccountIdx } = useParams();
+  
 
   function handleLogout() {
     axios
@@ -26,7 +26,7 @@ export default function MobileNavbar(props) {
       <ul className="nav justify-content-between align-items-center mx-4">
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={`/u/${currentActiveAccountIdx}/home`}
+            link={`/u/${props.currentActiveAccountIdx}/home`}
             iconName={faHouse}
             iconColor={"black"}
             iconSize={"l"}
@@ -34,7 +34,7 @@ export default function MobileNavbar(props) {
         </div>
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={`/u/${currentActiveAccountIdx}/explore`}
+            link={`/u/${props.currentActiveAccountIdx}/explore`}
             iconName={faHashtag}
             iconColor={"black"}
             iconSize={"l"}
@@ -42,7 +42,7 @@ export default function MobileNavbar(props) {
         </div>
         <div className="mobile-navbar-nav-item">
           <NavItem
-            link={`/u/${currentActiveAccountIdx}/profile`}
+            link={`/u/${props.currentActiveAccountIdx}/profile`}
             iconName={faUser}
             iconColor={"black"}
             iconSize={"l"}

@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import "./ImageSkeletonLoader.css";
+import { UserContext } from "../../Context/UserContext";
 
-const ImageSkeletonLoader = ({ width, height, animationDelay }) => {
+const ImageSkeletonLoader = ({ width, height, animationDelay, customStyles }) => {
+const {DarkMode }  = useContext(UserContext);
+
   return (
     <div
-      className="skeleton-image skeleton-animation"
-      style={{ width, height, animationDelay }}
+      className={`skeleton-image skeleton-animation ${DarkMode ? "darkMode-skeltonChanges" :""}`}
+      style={{ width, height, animationDelay, ...customStyles }}
     ></div>
   );
 };

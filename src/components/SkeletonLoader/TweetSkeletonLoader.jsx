@@ -25,7 +25,7 @@ const TweetSkeletonLoader = () => {
 
                 <p className="card-text my-3">
                   {[...Array(4)].map((_, index) => (
-                    <div className="skeleton-tweet-content-line skeleton-animation"></div>
+                    <div key={index} className="skeleton-tweet-content-line skeleton-animation"></div>
                   ))}
                 </p>
               </div>

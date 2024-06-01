@@ -13,20 +13,18 @@ export function getUsers(
       params: { users: request, toSearch: toSearch },
     })
     .then((res) => {
-      setUpdatedUser(res.data.user);
+      setUpdatedUser(res.data.currentActiveUser);
       let users;
       if (path === "following") {
-        users = res.data.user.follows;
+        users = res.data.currentActiveUser.follows;
       } else if (path === "followers") {
-        users = res.data.user.followedBy;
+        users = res.data.currentActiveUser.followedBy;
       } else if (path === "search") {
         users = res.data.users;
       } else {
         users = res.data.randomUsers.length === 0 ? [] : res.data.randomUsers;
       }
-      setTimeout(() => {
-        setUsersToMap(users);
-      }, 500); // timeout increased for loading animation
+      setUsersToMap(users);
     })
     .catch((err) => {
       console.log(err);

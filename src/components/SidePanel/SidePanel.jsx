@@ -42,7 +42,7 @@ export default function SidePanel(props) {
       }
       style={props.style}
     >
-      <ul className="list-group">
+      <ul className={`list-group ${DarkMode === true ? "darkMode" : ""}`}>
         {props.heading || <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>}
 
         {!usersToMap
@@ -52,6 +52,7 @@ export default function SidePanel(props) {
           : usersToMap.map((userToMap, index) => {
               return (
                 <SidePanelItem
+                  currentActiveAccountIdx={props.currentActiveAccountIdx}
                   key={index}
                   user={updatedUser || props.user}
                   followUpdated={props.followUpdated}

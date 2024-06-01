@@ -30,14 +30,11 @@ export default function Home(props) {
           withCredentials: true,
           params: { all: true },
         })
-        .then((res) => {
+        .then(async (res) => {
           if (res.status === 200) {
-            setTweets(res.data.tweets.reverse());
+            await setTweets(res.data.tweets.reverse());
           }
-
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 500);
+          setIsLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -46,7 +43,6 @@ export default function Home(props) {
 
     getTweets();
   }, []);
-
   // if (isLoading) {
   //   return <div> Loading... </div>;
   // }
@@ -59,12 +55,22 @@ export default function Home(props) {
       id="home"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
+        {(isTablet || isDesktop) && (
+          <Sidebar
+            parentUser={props.parentUser}
+            setParentUser={props.setParentUser}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            user={props.user}
+            setUser={props.setUser}
+          />
+        )}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         <Header heading="Home" subHeading="" />
         <TweetArea
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
           user={props.user}
           tweets={tweets}
           setTweets={setTweets}
@@ -72,7 +78,7 @@ export default function Home(props) {
           buttonText="Post"
         />
 
-        {isLoading
+        {isLoading || !props.user
           ? [...Array(6)].map((_, index) => <TweetSkeletonLoader key={index} />)
           : tweets.map((tweet, index) => {
               let user = {
@@ -87,6 +93,7 @@ export default function Home(props) {
               });
               return (
                 <Tweet
+                  currentActiveAccountIdx={props.currentActiveAccountIdx}
                   key={index}
                   tweet={tweet}
                   user={user}
@@ -98,14 +105,26 @@ export default function Home(props) {
               );
             })}
 
-        {isMobile && <MobileNavbar user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
-            <Searchbar user={props.user} style={{ width: "100%" }} />
-            <SidePanel user={props.user} />
+            <Searchbar
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+              style={{ width: "100%" }}
+            />
+            <SidePanel
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+            />
           </div>
         )}
       </div>

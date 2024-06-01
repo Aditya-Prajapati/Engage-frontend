@@ -1,4 +1,5 @@
-import React from "react";
+import React,{useContext} from "react";
+import { UserContext } from "../../Context/UserContext";
 import "./NameAndIdSkeletonLoader.css";
 
 const NameAndIdSkeletonLoader = ({
@@ -9,10 +10,13 @@ const NameAndIdSkeletonLoader = ({
   animationDelayName,
   animationDelayId,
 }) => {
+  const { DarkMode } = useContext(UserContext);
   return (
     <div className="skeleton-name-id">
       <div
-        className="skeleton-name skeleton-animation"
+        className={`skeleton-name skeleton-animation ${
+          DarkMode ? "darkMode-skeltonChanges" : ""
+        }`}
         style={{
           width: widthName,
           height: heightName,
@@ -20,7 +24,9 @@ const NameAndIdSkeletonLoader = ({
         }}
       ></div>
       <div
-        className="skeleton-id skeleton-animation"
+        className={`skeleton-id skeleton-animation ${
+          DarkMode ? "darkMode-skeltonChanges" : ""
+        }`}
         style={{
           width: widthId,
           height: heightId,

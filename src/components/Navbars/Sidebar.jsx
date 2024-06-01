@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import NavItem from "./NavItem";
 import { faHouse, faHashtag, faUser } from "@fortawesome/free-solid-svg-icons";
@@ -14,12 +14,13 @@ import {
 
 export default function Sidebar(props) {
   const navigate = useNavigate();
-  const { currentActiveAccountIdx } = useParams();
+  const [updatingUser, setUpdatingUser] = useState(false);
 
   const handleLogout = () => {
     axios
       .post("http://localhost:8000/auth/logout", {}, { withCredentials: true })
       .then((res) => {
+        props.setUser(null);
         navigate("/");
       })
       .catch((err) => {
@@ -28,57 +29,74 @@ export default function Sidebar(props) {
   };
 
   const handleAddAccount = () => {
-    navigate("/");
+    navigate("/", { state: { addAccountRoute: true } });
   };
 
   const handleAccountIdxChange = (idx) => {
+    setUpdatingUser(true);
     axios
       .post(
         "http://localhost:8000/user/updateCurrentActiveUser",
         { idx: idx },
         { withCredentials: true }
       )
-      .then((res) => {
+      .then(async (res) => {
         props.setCurrentActiveAccountIdx(idx);
+        props.setUser(res.data.updatedUser);
         navigate(`/u/${idx}/home`);
       })
       .catch((err) => {
         console.log("Error in handleAccountIdxChange: ", err);
+      })
+      .finally(() => {
+        setUpdatingUser(false);
       });
   };
 
   return (
     <div className="d-inline-flex flex-column align-items-end p-2 sidebar">
       {/* Main Logo */}
-      <a href={`/u/${currentActiveAccountIdx}/home`} className="p-3">
+      <a href={`/u/${props.currentActiveAccountIdx}/home`} className="p-3">
         <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
       </a>
 
       {/* Icons */}
       <ul className="nav flex-column mb-auto text-center">
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${currentActiveAccountIdx}/home`}
-            iconName={faHouse}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/home`}
+              iconName={faHouse}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${currentActiveAccountIdx}/explore`}
-            iconName={faHashtag}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/explore`}
+              iconName={faHashtag}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
-          <NavItem
-            link={`/u/${currentActiveAccountIdx}/profile`}
-            iconName={faUser}
-            iconColor={"#282829"}
-            iconSize={"xl"}
-          />
+          {updatingUser ? (
+            <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
+          ) : (
+            <NavItem
+              link={`/u/${props.currentActiveAccountIdx}/profile`}
+              iconName={faUser}
+              iconColor={"#282829"}
+              iconSize={"xl"}
+            />
+          )}
         </div>
       </ul>
 
@@ -88,28 +106,32 @@ export default function Sidebar(props) {
           className="d-flex align-items-center justify-content-center p-3 link-body-emphasis dropdown-toggle"
           data-bs-toggle="dropdown"
         >
-          <ProfileImage width={46} height={46} user={props.user} />
+          {!props.user || updatingUser ? (
+            <ImageSkeletonLoader />
+          ) : (
+            <ProfileImage width={46} height={46} user={props.user} />
+          )}
         </div>
 
         <ul className="dropdown-menu text-small shadow">
-          {!props.user ? (
+          {!props.parentUser ? (
             <div className="d-flex">
               <ImageSkeletonLoader />
               <NameAndIdSkeletonLoader />
             </div>
           ) : (
-            props.user.activeAccounts.map((activeAccount, idx) => {
+            props.parentUser.activeAccounts.map((activeAccount, idx) => {
               return (
                 <li
                   className="dropdown-item"
                   onClick={() => {
                     handleAccountIdxChange(idx);
                   }}
+                  key={idx}
                 >
                   <ProfileImage
                     user={activeAccount.user}
                     style={{ marginRight: "6px" }}
-                    key={idx}
                   />
                   <div className="userInfo">
                     <div className="userName">{activeAccount.user.name}</div>
@@ -128,7 +150,7 @@ export default function Sidebar(props) {
               width="14"
               height="14"
               fill="currentColor"
-              class="bi bi-plus-circle"
+              className="bi bi-plus-circle"
               viewBox="0 0 16 16"
               style={{ marginRight: "6px" }}
             >
@@ -139,9 +161,9 @@ export default function Sidebar(props) {
           </li>
           <li>
             <a className="dropdown-item" onClick={handleLogout}>
-              {!props.user ? (
+              {!props.parentUser ? (
                 <NameAndIdSkeletonLoader />
-              ) : props.user.activeAccounts.length <= 1 ? (
+              ) : props.parentUser.activeAccounts.length <= 1 ? (
                 "Sign out"
               ) : (
                 "Sign out of all accounts"

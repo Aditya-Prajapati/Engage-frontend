@@ -12,7 +12,7 @@ const getUpdatedUser = (updatedUser) => {
   axios
     .get("http://localhost:8000/user/getuser", { withCredentials: true })
     .then((res) => {
-      updatedUser(res.data.user);
+      updatedUser(res.data.currentActiveUser);
     })
     .catch((err) => {
       console.log(err);

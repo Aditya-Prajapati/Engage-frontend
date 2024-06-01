@@ -8,7 +8,7 @@ export default function ProfileImage(props) {
     borderRadius: "50%",
     ...props.style,
   };
-
+  
   return !props.user ? (
     <div style={{ margin: "4px 14px 0 0" }}>
       {" "}
