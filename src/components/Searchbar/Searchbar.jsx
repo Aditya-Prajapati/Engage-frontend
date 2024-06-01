@@ -51,7 +51,7 @@ export default function Searchbar(props) {
         {input && <ClearButton onClick={handleClear} />}
       </div>
       <div className="search-box-container d-none justify-content-center">
-        <div className="search-box bgc-white box-shadow">
+        <div className={`search-box bgc-white box-shadow ${DarkMode === true ? "darkMode" : ""}`} style={{boxShadow: "0 0 3px 0 #00000022"}}>
           {usersToMap && usersToMap.length ? (
             <div className="search-box-heading">Search for "{input}"</div>
           ) : (

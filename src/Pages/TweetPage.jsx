@@ -184,7 +184,10 @@ export default function TweetPage(props) {
         {isMobile && (
           <MobileNavbar
             currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            parentUser={props.parentUser}
             user={props.user}
+            setUser={props.setUser}
           />
         )}
       </div>

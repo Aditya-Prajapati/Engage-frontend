@@ -45,5 +45,7 @@
 }
 
 .search-box-heading {
+  border-radius: 16px;
   padding: 10px 20px;
 }
+

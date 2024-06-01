@@ -107,8 +107,11 @@ export default function Home(props) {
 
         {isMobile && (
           <MobileNavbar
+            parentUser={props.parentUser}
             currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
             user={props.user}
+            setUser={props.setUser}
           />
         )}
       </div>

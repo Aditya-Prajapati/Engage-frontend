@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Buttons.css";
 import axios from "axios";
+import { UserContext } from "../../Context/UserContext";
 
 const handleFollow = (
   userToMap,
@@ -33,6 +34,7 @@ const handleFollow = (
 };
 
 export default function GeneralButton(props) {
+  const { DarkMode, setDarkMode } = useContext(UserContext);
   /* (props.requestId == 0) -> followButton
    */
   return (
@@ -50,7 +52,7 @@ export default function GeneralButton(props) {
               props.setFollowUpdated,
             );
         }}
-        className={"general-button " + props.className}
+        className={`general-button ${DarkMode && "hovering-class"} ` + props.className}
         type={props.type}
         style={{ backgroundColor: `${props.bgc}`, ...props.style }}
       >

@@ -35,7 +35,7 @@ export default function App() {
   useEffect(() => {
     if (DarkMode) {
       document.body.classList.add("dark-mode");
-      document.body.style.backgroundColor = "black";
+      document.body.style.backgroundColor = "#212121";
       document.body.style.color = "white";
     } else {
       document.body.classList.remove("dark-mode");

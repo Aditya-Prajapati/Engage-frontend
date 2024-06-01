@@ -42,7 +42,7 @@ export default function SidePanel(props) {
       }
       style={props.style}
     >
-      <ul className={`list-group ${DarkMode === true ? "darkMode" : ""}`}>
+      <ul className={`list-group overflow-hidden ${DarkMode === true ? "darkMode" : ""}`}>
         {props.heading || <h5 className="ms-1 p-4 pb-2"> Who to follow </h5>}
 
         {!usersToMap
