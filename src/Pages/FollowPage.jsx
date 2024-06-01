@@ -33,18 +33,29 @@ export default function FollowPage(props) {
       id="followPage"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
+        {(isTablet || isDesktop) && (
+          <Sidebar
+            parentUser={props.parentUser} 
+            setParentUser={props.setParentUser}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            user={props.user}
+            setUser={props.setUser}
+          />
+        )}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         {(isTablet || isDesktop) && (
           <Header
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             heading={props.user.name}
             subHeading={props.user.username}
             style={{ height: "72px", position: "relative" }}
           />
         )}
         <Section
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
           sections={sections}
           user={props.user}
           activeIndex={requestId}
@@ -58,6 +69,7 @@ export default function FollowPage(props) {
           }}
         >
           <SidePanel
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             path={path}
             requestId={requestId}
             user={props.user}
@@ -71,14 +83,21 @@ export default function FollowPage(props) {
           />
         </div>
 
-        {isMobile && <MobileNavbar user={props.user} />}
+        {isMobile && <MobileNavbar currentActiveAccountIdx={props.currentActiveAccountIdx} user={props.user} />}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
-            <Searchbar user={props.user} style={{ width: "100%" }} />
-            <SidePanel user={props.user} />
+            <Searchbar
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+              style={{ width: "100%" }}
+            />
+            <SidePanel
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+            />
           </div>
         )}
       </div>

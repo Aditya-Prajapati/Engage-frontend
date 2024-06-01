@@ -51,9 +51,7 @@ export default function Profile(props) {
             setTweets(res.data.tweets.reverse());
           }
 
-          setTimeout(() => {
-            setIsLoading(false);
-          }, 500);
+          setIsLoading(false);
           setDeleteTweet(false);
         })
         .catch((err) => {
@@ -76,7 +74,16 @@ export default function Profile(props) {
       id="profile"
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
+        {(isTablet || isDesktop) && (
+          <Sidebar
+            parentUser={props.parentUser}
+            setParentUser={props.setParentUser}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            user={props.user}
+            setUser={props.setUser}
+          />
+        )}
       </div>
 
       <div className="d-inline-flex flex-column feed">
@@ -89,6 +96,7 @@ export default function Profile(props) {
           style={{ height: "75px" }}
         />
         <ProfileBox
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
           user={user}
           isCustomUser={isCustomUser}
           customUser={customUser}
@@ -96,6 +104,7 @@ export default function Profile(props) {
           followUpdated={followUpdated}
         />
         <Header
+          currentActiveAccountIdx={props.currentActiveAccountIdx}
           heading={isCustomUser ? "Tweets" : "Your tweets"}
           style={{ height: "75px" }}
         />
@@ -108,6 +117,7 @@ export default function Profile(props) {
               });
               return (
                 <Tweet
+                  currentActiveAccountIdx={props.currentActiveAccountIdx}
                   key={index}
                   tweet={tweet}
                   liked={liked.length}
@@ -116,19 +126,26 @@ export default function Profile(props) {
                 />
               );
             })}
-        {isMobile && <MobileNavbar user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
             <Searchbar
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
               user={props.user}
               style={{ width: "100%" }}
               followUpdated={followUpdated}
               setFollowUpdated={setFollowUpdated}
             />
             <SidePanel
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
               user={props.user}
               setUser={props.setUser}
               followUpdated={followUpdated}

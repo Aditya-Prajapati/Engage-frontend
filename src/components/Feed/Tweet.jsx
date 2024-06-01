@@ -94,7 +94,7 @@ const handleComment = (
 };
 
 export default function Tweet(props) {
-  const { currentActiveAccountIdx } = useParams();
+  
 
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [timeStamp, setTimeStamp] = useState(null);
@@ -171,7 +171,7 @@ export default function Tweet(props) {
         <div className="card-body">
           <div className="d-flex flex-column">
             <Link
-              to={`/u/${currentActiveAccountIdx}/${props.tweet.username}/${props.tweet._id}/${
+              to={`/u/${props.currentActiveAccountIdx}/${props.tweet.username}/${props.tweet._id}/${
                 props.isComment || false
               }`}
               style={{ textDecoration: "none", color: "black" }}

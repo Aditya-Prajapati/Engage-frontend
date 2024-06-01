@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./SectionStyles.css";
 import { UserContext } from "../../Context/UserContext";
+
 export default function Section(props) {
   const [activeIndex, setActiveIndex] = useState(props.activeIndex);
+  
   const { DarkMode, setDarkMode } = useContext(UserContext);
   const handleChildClick = (index) => {
-    setActiveIndex(index);
+    setActiveIndex(index); 
   };
 
   return (
@@ -19,9 +21,9 @@ export default function Section(props) {
           <Link
             to={
               section === "Followers"
-                ? `/u/${currentActiveAccountIdx}/profile/${props.user.username}/followers`
+                ? `/u/${props.currentActiveAccountIdx}/profile/${props.user.username}/followers`
                 : section === "Following"
-                  ? `/u/${currentActiveAccountIdx}/profile/${props.user.username}/following`
+                  ? `/u/${props.currentActiveAccountIdx}/profile/${props.user.username}/following`
                   : "#"
             }
             key={index}

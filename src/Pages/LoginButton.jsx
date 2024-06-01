@@ -7,10 +7,17 @@ import { UserContext } from "../Context/UserContext";
 export default function LoginButton(props) {
   const navigate = useNavigate();
   const { DarkMode, setDarkMode } = useContext(UserContext);
-  function handleGoogleLogin() {
-    window.open(props.link, "_self");
+  
+  async function handleGoogleLogin() {
+    await axios
+      .get("http://localhost:8000/auth/pre-google", { withCredentials: true })
+      .then(() => {
+        window.open("http://localhost:8000/auth/google", "_self");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
   const styling = {
     ...props.style,
   };
@@ -18,11 +25,13 @@ export default function LoginButton(props) {
   return (
     <a
       className={`submit`}
-      onClick={handleGoogleLogin}
+      onClick={props.isGoogleLogin && handleGoogleLogin}
       style={{ textDecoration: "none" }}
     >
       <button
-        className={`d-flex bd-highlight rounded-pill LoginButton ${DarkMode ? "hovering-class" : ""}`}
+        className={`d-flex bd-highlight rounded-pill LoginButton ${
+          DarkMode ? "hovering-class" : ""
+        }`}
         type={props.type}
         style={styling}
       >

@@ -27,24 +27,50 @@ export default function Explore(props) {
       }`}
     >
       <div className="d-inline-flex">
-        {(isTablet || isDesktop) && <Sidebar setCurrentActiveAccountIdx={setCurrentActiveAccountIdx} user={props.user} />}
+        {(isTablet || isDesktop) && (
+          <Sidebar
+            parentUser={props.parentUser}
+            setParentUser={props.setParentUser}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            user={props.user}
+            setUser={props.setUser}
+          />
+        )}
       </div>
 
       <div className="d-inline-flex flex-column feed">
         {/* <Header heading="Explore" subHeading="" /> */}
         <div className="d-flex justify-content-center align-items-center w-100">
           <div className="position-relative w-100 px-2">
-            <Searchbar user={props.user} style={{ width: "100%" }} />
+            <Searchbar
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              user={props.user}
+              style={{ width: "100%" }}
+            />
           </div>
         </div>
 
-        {!isMobile && <Section sections={sections} activeIndex={0} />}
+        {!isMobile && (
+          <Section
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            sections={sections}
+            activeIndex={0}
+          />
+        )}
         {!isMobile && <Trending />}
-        {isMobile && <Section sections={["Who to follow"]} activeIndex={0} />}
+        {isMobile && (
+          <Section
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            sections={["Who to follow"]}
+            activeIndex={0}
+          />
+        )}
         {isMobile && (
           <SidePanel
             classNames="mt-2"
             user={props.user}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
             requestId={0}
             heading=" "
             style={{
@@ -55,14 +81,22 @@ export default function Explore(props) {
           />
         )}
 
-        {/* <Tweet /> */}
-        {isMobile && <MobileNavbar user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>
         {isDesktop && (
           <div className="sticky-top">
-            <SidePanel classNames="mt-2" user={props.user} />
+            <SidePanel
+              currentActiveAccountIdx={props.currentActiveAccountIdx}
+              classNames="mt-2"
+              user={props.user}
+            />
           </div>
         )}
       </div>
