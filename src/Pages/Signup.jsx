@@ -74,6 +74,7 @@ export default function Signup(props) {
           <span style={{ color: "#1DA1F2" }}> Engage&nbsp; </span>
         </h3>
         <LoginButton
+          isGoogleLogin={true}
           link="http://localhost:8000/auth/google"
           icon={
             <svg
