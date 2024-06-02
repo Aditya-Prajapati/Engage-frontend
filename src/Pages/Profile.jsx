@@ -91,7 +91,7 @@ export default function Profile(props) {
           heading={user.name}
           subHeading={
             tweets &&
-            (tweets.length !== 1 ? tweets.length + " Tweets" : "1 Tweet")
+            (tweets.length !== 1 ? tweets.length + " Posts" : "1 Post")
           }
           style={{ height: "75px" }}
         />
@@ -105,7 +105,7 @@ export default function Profile(props) {
         />
         <Header
           currentActiveAccountIdx={props.currentActiveAccountIdx}
-          heading={isCustomUser ? "Tweets" : "Your tweets"}
+          heading={isCustomUser ? "Posts" : "Your posts"}
           style={{ height: "75px" }}
         />
 

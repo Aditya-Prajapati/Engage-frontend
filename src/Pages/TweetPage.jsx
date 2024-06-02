@@ -87,7 +87,7 @@ export default function TweetPage(props) {
       <div className="d-inline-flex flex-column feed">
         <Header
           currentActiveAccountIdx={props.currentActiveAccountIdx}
-          heading="Tweet"
+          heading="Post"
           subHeading=""
         />
 
@@ -151,7 +151,7 @@ export default function TweetPage(props) {
             currentActiveAccountIdx={props.currentActiveAccountIdx}
             tweet={commentClicked.at(-1) ? commentClicked.at(-1) : tweet}
             user={props.user}
-            text="Tweet your reply!"
+            text="Post a comment..."
             buttonText="Reply"
             style={{ marginTop: "10px" }}
             makeReply={true}

@@ -65,13 +65,13 @@ export default function Login(props) {
       }`}
       id="LoginContainer"
     >
-      <div className="card align-items-center" id="Login">
-        <div className="TwitterIcon d-flex justify-content-center">
+      <div className={`card align-items-center`} id="Login" style={{ background: (DarkMode && "#1A1A1A") }}>
+        {/* <div className="TwitterIcon d-flex justify-content-center">
           <TwitterIcon style={{ fontSize: "2rem", color: "#1DA1F2" }} />
-        </div>
+        </div> */}
 
         <h3 className="HeadingText">
-          Sign in to <span style={{ color: "#1DA1F2" }}> Twitter Clone </span>
+          <span>Engage&nbsp;</span>
         </h3>
         {/* icon={<GoogleIcon />} */}
         <LoginButton
@@ -158,6 +158,7 @@ export default function Login(props) {
               }`,
               margin: "4px 0",
               height: "10px",
+              zIndex: "99",
             }}
           >
             {" "}
@@ -166,11 +167,6 @@ export default function Login(props) {
 
           <LoginButton
             text={"Submit"}
-            style={{
-              fontWeight: "bold",
-              backgroundColor: "black",
-              color: "white",
-            }}
             className="submit"
             type="submit"
           />

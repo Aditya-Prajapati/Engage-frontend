@@ -15,7 +15,7 @@ export default function Trending() {
         <p className="Hastag">#Trending</p>
         <button className="Setting">...</button>
       </div>
-      <p className="Tweets">7500 Tweets</p> */}
+      <p className="Posts">7500 Posts</p> */}
     </div>
   );
 }

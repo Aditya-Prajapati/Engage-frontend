@@ -55,13 +55,17 @@ export default function Sidebar(props) {
 
   return (
     <div className="d-inline-flex flex-column align-items-end p-2 sidebar">
-      {/* Main Logo */}
-      <a href={`/u/${props.currentActiveAccountIdx}/home`} className="p-3">
-        <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
-      </a>
 
       {/* Icons */}
       <ul className="nav flex-column mb-auto text-center">
+        {/* Main Logo */}
+        <a href={`/u/${props.currentActiveAccountIdx}/home`} className="logo-link" style={{ textDecoration: "none" }}>
+          {/* <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
+          */}
+          <h3 className="HeadingText">
+            <span>E&nbsp;</span>
+          </h3>
+        </a>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
           {updatingUser ? (
             <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
