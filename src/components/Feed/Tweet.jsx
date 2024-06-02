@@ -110,6 +110,8 @@ export default function Tweet(props) {
 
   const customStyle = {
     ...props.style,
+    margin: (props.threaded) ? "0" : "",
+    boxShadow: (props.threaded) ? "none" : "",
     borderBottom: props.threaded ? "none" : "",
   };
 

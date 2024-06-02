@@ -65,7 +65,7 @@ export default function Login(props) {
       }`}
       id="LoginContainer"
     >
-      <div className={`card align-items-center`} id="Login" style={{ background: (DarkMode && "#1A1A1A") }}>
+      <div className={`card align-items-center`} id="Login" style={{ background: (DarkMode && "#282828") }}>
         {/* <div className="TwitterIcon d-flex justify-content-center">
           <TwitterIcon style={{ fontSize: "2rem", color: "#1DA1F2" }} />
         </div> */}

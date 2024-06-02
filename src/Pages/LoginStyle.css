@@ -140,5 +140,7 @@
     margin: 0;
     padding: 1rem;
     border: none;
+    background: none;
+    box-shadow: none;
   }
 }

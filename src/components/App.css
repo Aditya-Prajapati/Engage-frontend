@@ -52,7 +52,7 @@
 
 /*                                  */
 .darkMode * {
-  background-color: #1A1A1A !important;
+  background-color: #282828 !important;
   color: whitesmoke !important;
   border-color: hsla(0,0%,100%,.1) !important;
 }

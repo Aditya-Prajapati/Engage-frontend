@@ -105,7 +105,7 @@ export default function Sidebar(props) {
       </ul>
 
       {/* Profile Icon */}
-      <div className="dropdown border-top">
+      <div className="dropdown">
         <div
           className="d-flex align-items-center justify-content-center p-3 link-body-emphasis dropdown-toggle"
           data-bs-toggle="dropdown"
@@ -117,7 +117,7 @@ export default function Sidebar(props) {
           )}
         </div>
 
-        <ul className="dropdown-menu text-small shadow">
+        <ul className="dropdown-menu text-small">
           {!props.parentUser ? (
             <div className="d-flex">
               <ImageSkeletonLoader />

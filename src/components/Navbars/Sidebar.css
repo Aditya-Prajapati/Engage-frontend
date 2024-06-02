@@ -1,10 +1,10 @@
 .sidebar {
-  border-right: 0.9px solid rgb(211, 211, 211, 0.3);
+  /* border-right: 0.9px solid rgb(211, 211, 211, 0.3); */
   height: 100vh;
   position: fixed;
   top: 0;
-  width: 13%;
-  z-index: 2;
+  width: 12%;
+  z-index: 99;
 }
 
 .sidebar .logo-link{
@@ -28,6 +28,13 @@
 
 .sidebar .dropdown {
   cursor: pointer;
+}
+
+.sidebar .dropdown .dropdown-menu {
+  margin: 6px 0;
+  border-radius: 16px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border: none;
 }
 
 .sidebar .dropdown .dropdown-item {
