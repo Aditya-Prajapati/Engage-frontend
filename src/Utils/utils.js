@@ -8,7 +8,7 @@ export function getUsers(
   toSearch,
 ) {
   axios
-    .get("http://localhost:8000/user/getusers", {
+    .get("https://engagebackend.vercel.app/user/getusers", {
       withCredentials: true,
       params: { users: request, toSearch: toSearch },
     })

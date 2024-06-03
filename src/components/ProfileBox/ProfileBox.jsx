@@ -10,7 +10,7 @@ import { ProfileBoxSkeletonLoader } from "../SkeletonLoader/index.js";
 import { UserContext } from "../../Context/UserContext";
 const getUpdatedUser = (updatedUser) => {
   axios
-    .get("http://localhost:8000/user/getuser", { withCredentials: true })
+    .get("https://engagebackend.vercel.app/user/getuser", { withCredentials: true })
     .then((res) => {
       updatedUser(res.data.currentActiveUser);
     })

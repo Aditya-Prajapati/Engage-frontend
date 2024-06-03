@@ -18,7 +18,7 @@ export default function Sidebar(props) {
 
   const handleLogout = () => {
     axios
-      .post("http://localhost:8000/auth/logout", {}, { withCredentials: true })
+      .post("https://engagebackend.vercel.app/auth/logout", {}, { withCredentials: true })
       .then((res) => {
         props.setUser(null);
         navigate("/");
@@ -36,7 +36,7 @@ export default function Sidebar(props) {
     setUpdatingUser(true);
     axios
       .post(
-        "http://localhost:8000/user/updateCurrentActiveUser",
+        "https://engagebackend.vercel.app/user/updateCurrentActiveUser",
         { idx: idx },
         { withCredentials: true }
       )

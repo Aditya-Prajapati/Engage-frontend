@@ -22,7 +22,7 @@ export default function TweetArea(props) {
 
     await axios
       .post(
-        "http://localhost:8000/tweet/posttweets",
+        "https://engagebackend.vercel.app/tweet/posttweets",
         {
           name: props.user.name,
           username: props.user.username,
@@ -46,7 +46,7 @@ export default function TweetArea(props) {
 
     axios
       .post(
-        "http://localhost:8000/tweet/comment",
+        "https://engagebackend.vercel.app/tweet/comment",
         {
           comments: props.comments,
           isComment: props.isComment || false,

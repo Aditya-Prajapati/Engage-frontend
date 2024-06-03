@@ -31,7 +31,7 @@ export default function TweetPage(props) {
 
     const fetchTweet = (tweetId) => {
       axios
-        .get(`http://localhost:8000/tweet/gettweet/${tweetId}`, {
+        .get(`https://engagebackend.vercel.app/tweet/gettweet/${tweetId}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -44,7 +44,7 @@ export default function TweetPage(props) {
     const fetchComments = () => {
       axios
         .get(
-          `http://localhost:8000/tweet/getcomments/${tweetId}`, // comment is treated as tweet
+          `https://engagebackend.vercel.app/tweet/getcomments/${tweetId}`, // comment is treated as tweet
           { withCredentials: true }
         )
         .then((res) => {
