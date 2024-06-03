@@ -42,7 +42,7 @@ export default function Profile(props) {
   useEffect(() => {
     const getTweets = () => {
       axios
-        .get("https://engagebackend.vercel.app/tweet/gettweets", {
+        .get("https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/tweet/gettweets", {
           withCredentials: true,
           params: { all: false, customUser: isCustomUser && user.username },
         })

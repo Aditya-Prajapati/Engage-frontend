@@ -10,9 +10,9 @@ export default function LoginButton(props) {
   
   async function handleGoogleLogin() {
     await axios
-      .get("https://engagebackend.vercel.app/auth/pre-google", { withCredentials: true })
+      .get("https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/auth/pre-google", { withCredentials: true })
       .then(() => {
-        window.open("https://engagebackend.vercel.app/auth/google", "_self");
+        window.open("https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/auth/google", "_self");
       })
       .catch((err) => {
         console.log(err);
