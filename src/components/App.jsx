@@ -48,7 +48,7 @@ export default function App() {
     const getUser = async () => {
       try {
         const response = await axios.get(
-          "https://engagebackend.vercel.app//auth/login/success",
+          "https://engagebackend.vercel.app/auth/login/success",
           {
             // params: { currentActiveUser: true },
             withCredentials: true,

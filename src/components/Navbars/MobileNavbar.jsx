@@ -22,7 +22,7 @@ export default function MobileNavbar(props) {
     setUpdatingUser(true);
     axios
       .post(
-        "https://engagebackend.vercel.app//user/updateCurrentActiveUser",
+        "https://engagebackend.vercel.app/user/updateCurrentActiveUser",
         { idx: idx },
         { withCredentials: true }
       )
@@ -41,7 +41,7 @@ export default function MobileNavbar(props) {
 
   function handleLogout() {
     axios
-      .post("https://engagebackend.vercel.app//auth/logout", {}, { withCredentials: true })
+      .post("https://engagebackend.vercel.app/auth/logout", {}, { withCredentials: true })
       .then((res) => {
         props.setUser(null);
         navigate("/");

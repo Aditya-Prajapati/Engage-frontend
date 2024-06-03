@@ -12,7 +12,7 @@ const handleFollow = (
 ) => {
   axios
     .post(
-      "https://engagebackend.vercel.app//user/follow",
+      "https://engagebackend.vercel.app/user/follow",
       {
         userToMap: userToMap,
       },

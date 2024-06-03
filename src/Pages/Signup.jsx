@@ -34,7 +34,7 @@ export default function Signup(props) {
 
     await axios
       .post(
-        "https://engagebackend.vercel.app//auth/signup",
+        "https://engagebackend.vercel.app/auth/signup",
         { name: name, username: email, password: pswrd },
         { withCredentials: true },
         {
@@ -75,7 +75,7 @@ export default function Signup(props) {
         </h3>
         <LoginButton
           isGoogleLogin={true}
-          link="https://engagebackend.vercel.app//auth/google"
+          link="https://engagebackend.vercel.app/auth/google"
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

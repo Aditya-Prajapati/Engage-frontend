@@ -22,7 +22,7 @@ export default function Comments(props) {
     const getComments = () => {
       axios
         .post(
-          "https://engagebackend.vercel.app//tweet/getcomments",
+          "https://engagebackend.vercel.app/tweet/getcomments",
           {
             tweetId: props.tweet._id, // might be the commentId, bcz comment is treated as tweet
           },
