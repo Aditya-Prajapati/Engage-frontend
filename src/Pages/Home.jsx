@@ -26,7 +26,7 @@ export default function Home(props) {
   useEffect(() => {
     const getTweets = () => {
       axios
-        .get("http://localhost:8000/tweet/gettweets", {
+        .get("https://engagebackend.vercel.app//tweet/gettweets", {
           withCredentials: true,
           params: { all: true },
         })
