@@ -52,18 +52,19 @@
 
 /*                                  */
 .darkMode * {
-  background-color: black !important;
-  color: white !important;
-  border-color: grey !important;
+  background-color: #282828 !important;
+  color: whitesmoke !important;
+  border-color: hsla(0,0%,100%,.1) !important;
 }
 
 .darkMode {
   border: solid !important;
-  border-width: 0.6px !important;
+  border-color: hsla(0,0%,100%,.1) !important;
+  border-width: 0.5px !important;
 }
 
 .hovering-class {
-  border-color: rgb(142, 123, 123) !important;
+  border-color: hsla(0,0%,100%,.1) !important;
   border-width: 0.5px !important;
 }
 

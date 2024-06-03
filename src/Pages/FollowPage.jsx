@@ -35,7 +35,7 @@ export default function FollowPage(props) {
       <div className="d-inline-flex">
         {(isTablet || isDesktop) && (
           <Sidebar
-            parentUser={props.parentUser} 
+            parentUser={props.parentUser}
             setParentUser={props.setParentUser}
             currentActiveAccountIdx={props.currentActiveAccountIdx}
             setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
@@ -63,9 +63,9 @@ export default function FollowPage(props) {
 
         <div
           style={{
-            borderBottom: ".9px solid rgb(211, 211, 211, 0.3)",
-            borderRight: ".9px solid rgb(211, 211, 211, 0.3)",
-            paddingTop: "8px",
+            margin: "6px 0",
+            borderRadius: "16px",
+            boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px",
           }}
         >
           <SidePanel
@@ -77,13 +77,20 @@ export default function FollowPage(props) {
             followPage={true}
             style={{
               backgroundColor: "white",
-              borderRadius: "0",
               boxShadow: "none",
             }}
           />
         </div>
 
-        {isMobile && <MobileNavbar currentActiveAccountIdx={props.currentActiveAccountIdx} user={props.user} />}
+        {isMobile && (
+          <MobileNavbar
+            setUser={props.setUser}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
+            parentUser={props.parentUser}
+            currentActiveAccountIdx={props.currentActiveAccountIdx}
+            user={props.user}
+          />
+        )}
       </div>
 
       <div className={"d-inline-flex flex-column side-panel-container"}>

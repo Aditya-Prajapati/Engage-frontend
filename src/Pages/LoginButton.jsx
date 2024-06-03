@@ -33,7 +33,7 @@ export default function LoginButton(props) {
           DarkMode ? "hovering-class" : ""
         }`}
         type={props.type}
-        style={styling}
+        style={{background: `${DarkMode?"#282828":""}`, ...styling } }
       >
         {props.icon}
         <span className="ms-2" style={{ fontWeight: "500" }}>

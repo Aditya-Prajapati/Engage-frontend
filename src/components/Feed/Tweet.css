@@ -1,11 +1,14 @@
 .card {
   border: none;
   border-radius: 0;
-  border-bottom: 0.9px solid rgb(211, 211, 211, 0.3);
-  border-right: 0.9px solid rgb(211, 211, 211, 0.3);
+  /* border-bottom: 0.9px solid rgb(211, 211, 211, 0.3);
+  border-right: 0.9px solid rgb(211, 211, 211, 0.3); */
   overflow: hidden;
   width: 100%;
-  z-index: 0;
+  z-index: 2;
+  margin: 6px 0;
+  border-radius: 16px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
 .card:hover {

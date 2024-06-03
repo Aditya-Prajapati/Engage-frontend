@@ -55,13 +55,17 @@ export default function Sidebar(props) {
 
   return (
     <div className="d-inline-flex flex-column align-items-end p-2 sidebar">
-      {/* Main Logo */}
-      <a href={`/u/${props.currentActiveAccountIdx}/home`} className="p-3">
-        <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
-      </a>
 
       {/* Icons */}
       <ul className="nav flex-column mb-auto text-center">
+        {/* Main Logo */}
+        <a href={`/u/${props.currentActiveAccountIdx}/home`} className="logo-link" style={{ textDecoration: "none" }}>
+          {/* <TwitterIcon fontSize="large" sx={{ color: "#1da1f2" }} />
+          */}
+          <h3 className="HeadingText">
+            <span>E&nbsp;</span>
+          </h3>
+        </a>
         <div className="d-flex align-items-center justify-content-center sidebar-nav-item">
           {updatingUser ? (
             <ImageSkeletonLoader customStyles={{ margin: "4px" }} />
@@ -101,7 +105,7 @@ export default function Sidebar(props) {
       </ul>
 
       {/* Profile Icon */}
-      <div className="dropdown border-top">
+      <div className="dropdown">
         <div
           className="d-flex align-items-center justify-content-center p-3 link-body-emphasis dropdown-toggle"
           data-bs-toggle="dropdown"
@@ -113,7 +117,7 @@ export default function Sidebar(props) {
           )}
         </div>
 
-        <ul className="dropdown-menu text-small shadow">
+        <ul className="dropdown-menu text-small">
           {!props.parentUser ? (
             <div className="d-flex">
               <ImageSkeletonLoader />
@@ -152,7 +156,7 @@ export default function Sidebar(props) {
               fill="currentColor"
               className="bi bi-plus-circle"
               viewBox="0 0 16 16"
-              style={{ marginRight: "6px" }}
+              style={{ marginRight: "8px" }}
             >
               <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
               <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />

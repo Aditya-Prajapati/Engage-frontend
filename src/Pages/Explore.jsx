@@ -18,7 +18,7 @@ export default function Explore(props) {
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const { DarkMode, setDarkMode } = useContext(UserContext);
 
-  let sections = ["For you", "Trending", "News", "Sports"];
+  let sections = ["For you", "Trending"];
 
   return (
     <div
@@ -84,7 +84,10 @@ export default function Explore(props) {
         {isMobile && (
           <MobileNavbar
             currentActiveAccountIdx={props.currentActiveAccountIdx}
+            setCurrentActiveAccountIdx={props.setCurrentActiveAccountIdx}
             user={props.user}
+            setUser={props.setUser}
+            parentUser={props.parentUser}
           />
         )}
       </div>

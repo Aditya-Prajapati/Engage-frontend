@@ -49,7 +49,7 @@ export default function Comments(props) {
   }
 
   return (
-    <div className={`${DarkMode === true ? "darkMode" : ""}`}>
+    <div>
       {/* Tweet component is used for comments too */}
       {commentedBy.map((commentBy, index) => {
         let user = {
