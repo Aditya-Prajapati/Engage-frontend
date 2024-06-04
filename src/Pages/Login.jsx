@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useState, useEffect, useContext } from "react";
 import { useNavigate, Link, useParams } from "react-router-dom";
 import "./LoginStyle.css";
@@ -26,7 +27,7 @@ export default function Login(props) {
     try {
       await axios
         .post(
-          "https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/auth/login",
+          `${BASE_URL}/auth/login`,
           { username: email, password: pswrd },
 
           { withCredentials: true },

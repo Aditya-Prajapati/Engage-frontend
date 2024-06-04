@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useState, useContext } from "react";
 import axios from "axios";
 import ProfileImage from "../ProfileImage";
@@ -22,7 +23,7 @@ export default function TweetArea(props) {
 
     await axios
       .post(
-        "https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/tweet/posttweets",
+        `${BASE_URL}/tweet/posttweets`,
         {
           name: props.user.name,
           username: props.user.username,
@@ -46,7 +47,7 @@ export default function TweetArea(props) {
 
     axios
       .post(
-        "https://engagebackend-git-deployment-adityaprajapatis-projects.vercel.app/tweet/comment",
+        `${BASE_URL}/tweet/comment`,
         {
           comments: props.comments,
           isComment: props.isComment || false,
