@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Buttons.css";
@@ -12,7 +13,7 @@ const handleFollow = (
 ) => {
   axios
     .post(
-      "https://engagebackend.vercel.app/user/follow",
+      `${BASE_URL}/user/follow`,
       {
         userToMap: userToMap,
       },

@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
@@ -31,7 +32,7 @@ export default function TweetPage(props) {
 
     const fetchTweet = (tweetId) => {
       axios
-        .get(`https://engagebackend.vercel.app/tweet/gettweet/${tweetId}`, {
+        .get(`${BASE_URL}/tweet/gettweet/${tweetId}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -44,7 +45,7 @@ export default function TweetPage(props) {
     const fetchComments = () => {
       axios
         .get(
-          `https://engagebackend.vercel.app/tweet/getcomments/${tweetId}`, // comment is treated as tweet
+          `${BASE_URL}/tweet/getcomments/${tweetId}`, // comment is treated as tweet
           { withCredentials: true }
         )
         .then((res) => {

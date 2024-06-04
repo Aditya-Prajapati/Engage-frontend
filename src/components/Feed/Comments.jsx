@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import "./Tweet.css";
@@ -22,7 +23,7 @@ export default function Comments(props) {
     const getComments = () => {
       axios
         .post(
-          "https://engagebackend.vercel.app/tweet/getcomments",
+          `${BASE_URL}/tweet/getcomments`,
           {
             tweetId: props.tweet._id, // might be the commentId, bcz comment is treated as tweet
           },

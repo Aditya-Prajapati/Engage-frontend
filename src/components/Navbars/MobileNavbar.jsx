@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useState } from "react";
 import NavItem from "./NavItem";
 import "./MobileNavbar.css";
@@ -22,7 +23,7 @@ export default function MobileNavbar(props) {
     setUpdatingUser(true);
     axios
       .post(
-        "https://engagebackend.vercel.app/user/updateCurrentActiveUser",
+        `${BASE_URL}/user/updateCurrentActiveUser`,
         { idx: idx },
         { withCredentials: true }
       )
@@ -41,7 +42,7 @@ export default function MobileNavbar(props) {
 
   function handleLogout() {
     axios
-      .post("https://engagebackend.vercel.app/auth/logout", {}, { withCredentials: true })
+      .post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true })
       .then((res) => {
         props.setUser(null);
         navigate("/");

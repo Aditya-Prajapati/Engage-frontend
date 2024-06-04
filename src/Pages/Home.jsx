@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useState, useEffect, useContext } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +27,7 @@ export default function Home(props) {
   useEffect(() => {
     const getTweets = () => {
       axios
-        .get("https://engagebackend.vercel.app/tweet/gettweets", {
+        .get(`${BASE_URL}/tweet/gettweets`, {
           withCredentials: true,
           params: { all: true },
         })

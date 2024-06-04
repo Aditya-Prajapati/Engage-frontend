@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useEffect, useState, useContext } from "react";
 import "./Tweet.css";
 import ProfileImage from "../ProfileImage";
@@ -23,7 +24,7 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
 
   axios
     .post(
-      "https://engagebackend.vercel.app/tweet/deletetweet",
+      `${BASE_URL}/tweet/deletetweet`,
       {
         tweetId: tweet._id,
       },
@@ -42,7 +43,7 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
 const handleLike = (tweet, setLikes, isComment, liked, setLiked) => {
   axios
     .post(
-      "https://engagebackend.vercel.app/tweet/liketweet",
+      `${BASE_URL}/tweet/liketweet`,
       {
         tweetId: tweet._id,
         isComment: isComment,
@@ -79,7 +80,7 @@ const handleComment = (
 
   axios
     .post(
-      "https://engagebackend.vercel.app/tweet/getcomments",
+      `${BASE_URL}/tweet/getcomments`,
       {
         tweetId: tweet._id,
       },

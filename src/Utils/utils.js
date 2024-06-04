@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import axios from "axios";
 
 export function getUsers(
@@ -8,7 +9,7 @@ export function getUsers(
   toSearch,
 ) {
   axios
-    .get("https://engagebackend.vercel.app/user/getusers", {
+    .get(`${BASE_URL}/user/getusers`, {
       withCredentials: true,
       params: { users: request, toSearch: toSearch },
     })
