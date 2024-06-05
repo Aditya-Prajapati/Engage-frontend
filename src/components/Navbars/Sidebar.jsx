@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useState } from "react";
 import { redirect, useNavigate, useParams } from "react-router-dom";
 import NavItem from "./NavItem";
@@ -18,7 +19,7 @@ export default function Sidebar(props) {
 
   const handleLogout = () => {
     axios
-      .post("http://localhost:8000/auth/logout", {}, { withCredentials: true })
+      .post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true })
       .then((res) => {
         props.setUser(null);
         navigate("/");
@@ -36,7 +37,7 @@ export default function Sidebar(props) {
     setUpdatingUser(true);
     axios
       .post(
-        "http://localhost:8000/user/updateCurrentActiveUser",
+        `${BASE_URL}/user/updateCurrentActiveUser`,
         { idx: idx },
         { withCredentials: true }
       )

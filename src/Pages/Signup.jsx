@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -34,7 +35,7 @@ export default function Signup(props) {
 
     await axios
       .post(
-        "http://localhost:8000/auth/signup",
+        `${BASE_URL}/auth/signup`,
         { name: name, username: email, password: pswrd },
         { withCredentials: true },
         {
@@ -75,7 +76,7 @@ export default function Signup(props) {
         </h3>
         <LoginButton
           isGoogleLogin={true}
-          link="http://localhost:8000/auth/google"
+          link={`${BASE_URL}/auth/google`}
           icon={
             <svg
               xmlns="http://www.w3.org/2000/svg"

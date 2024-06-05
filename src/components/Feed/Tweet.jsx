@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useEffect, useState, useContext } from "react";
 import "./Tweet.css";
 import ProfileImage from "../ProfileImage";
@@ -24,7 +25,7 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
 
   axios
     .post(
-      "http://localhost:8000/tweet/deletetweet",
+      `${BASE_URL}/tweet/deletetweet`,
       {
         tweetId: tweet._id,
         audio: tweet.audio ? tweet.audio : null,
@@ -44,7 +45,7 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
 const handleLike = (tweet, setLikes, isComment, liked, setLiked) => {
   axios
     .post(
-      "http://localhost:8000/tweet/liketweet",
+      `${BASE_URL}/tweet/liketweet`,
       {
         tweetId: tweet._id,
         isComment: isComment,
@@ -81,7 +82,7 @@ const handleComment = (
 
   axios
     .post(
-      "http://localhost:8000/tweet/getcomments",
+      `${BASE_URL}/tweet/getcomments`,
       {
         tweetId: tweet._id,
       },
@@ -165,7 +166,7 @@ export default function Tweet(props) {
       if (props.tweet.audio) {
         const filename = props.tweet.audio.filename;
         const response = await axios.get(
-          `http://localhost:8000/tweet/getAudio/${filename}`,
+          `${BASE_URL}/tweet/getAudio/${filename}`,
           {
             withCredentials: true,
             responseType: "arraybuffer", // Ensure the response is an arraybuffer

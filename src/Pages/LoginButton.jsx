@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useContext } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,9 +11,9 @@ export default function LoginButton(props) {
   
   async function handleGoogleLogin() {
     await axios
-      .get("http://localhost:8000/auth/pre-google", { withCredentials: true })
+      .get(`${BASE_URL}/auth/pre-google`, { withCredentials: true })
       .then(() => {
-        window.open("http://localhost:8000/auth/google", "_self");
+        window.open(`${BASE_URL}/auth/google`, "_self");
       })
       .catch((err) => {
         console.log(err);

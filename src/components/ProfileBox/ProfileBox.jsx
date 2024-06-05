@@ -1,3 +1,4 @@
+import BASE_URL from "../../apiConfig";
 import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import NameAndId from "./NameAndId";
@@ -10,7 +11,7 @@ import { ProfileBoxSkeletonLoader } from "../SkeletonLoader/index.js";
 import { UserContext } from "../../Context/UserContext";
 const getUpdatedUser = (updatedUser) => {
   axios
-    .get("http://localhost:8000/user/getuser", { withCredentials: true })
+    .get(`${BASE_URL}/user/getuser`, { withCredentials: true })
     .then((res) => {
       updatedUser(res.data.currentActiveUser);
     })

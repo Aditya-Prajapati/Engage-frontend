@@ -1,3 +1,4 @@
+import BASE_URL from "../apiConfig";
 import React, { useState, useEffect, useContext } from "react";
 import {
   Routes,
@@ -48,7 +49,7 @@ export default function App() {
     const getUser = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:8000/auth/login/success",
+          `${BASE_URL}/auth/login/success`,
           {
             // params: { currentActiveUser: true },
             withCredentials: true,

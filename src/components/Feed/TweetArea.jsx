@@ -1,4 +1,5 @@
-import React, { useState, useContext, useRef } from "react";
+import BASE_URL from "../../apiConfig";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import ProfileImage from "../ProfileImage";
 import CollectionsIcon from "@mui/icons-material/Collections";
@@ -23,50 +24,50 @@ export default function TweetArea(props) {
     return <TweetSkeletonLoader />;
   }
 
- const postTweet = async (e) => {
-   e.preventDefault();
-   
-   let formData = new FormData();
-   formData.append("name", props.user.name);
-   formData.append("username", props.user.username);
-   formData.append("tweetContent", tweetContent.trim());
+  const postTweet = async (e) => {
+    e.preventDefault();
 
-   // Check if audio exists and append it to the formData
-   if (audioBlobRef) {
-     formData.append("audio", audioBlobRef, "audio.wav");
-   }
+    let formData = new FormData();
+    formData.append("name", props.user.name);
+    formData.append("username", props.user.username);
+    formData.append("tweetContent", tweetContent.trim());
 
-   try {
-     const res = await axios.post(
-       "http://localhost:8000/tweet/posttweets",
-       formData,
-       {
-         withCredentials: true,
-         maxContentLength: Infinity,
-         headers: {
-           "Content-Type": "multipart/form-data",
-         },
-       }
-     );
+    // Check if audio exists and append it to the formData
+    if (audioBlobRef) {
+      formData.append("audio", audioBlobRef, "audio.wav");
+    }
 
-     if (res.status === 200) {
-       setTweetContent("");
-       props.setTweets([res.data.postedTweet, ...props.tweets]);
-     }
-   } catch (err) {
-     console.log(err);
-   } finally {
-     // Clear the audio blob after the request is completed
-     updateAudioBlobRef(null);
-   }
- };
+    try {
+      const res = await axios.post(
+        `${BASE_URL}/tweet/posttweets`,
+        formData,
+        {
+          withCredentials: true,
+          maxContentLength: Infinity,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (res.status === 200) {
+        setTweetContent("");
+        props.setTweets([res.data.postedTweet, ...props.tweets]);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      // Clear the audio blob after the request is completed
+      updateAudioBlobRef(null);
+    }
+  };
 
   const comment = async (e) => {
     e.preventDefault();
 
     try {
       const res = await axios.post(
-        "http://localhost:8000/tweet/comment",
+        `${BASE_URL}/tweet/comment`,
         {
           comments: props.comments,
           isComment: props.isComment || false,
