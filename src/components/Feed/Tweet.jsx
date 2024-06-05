@@ -12,6 +12,7 @@ import Header from "../Header/Header";
 import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { UserContext } from "../../Context/UserContext";
+import { NameAndIdSkeletonLoader } from "../SkeletonLoader";
 
 let TIME = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
 let DATE = `${new Date().getDate()}-${
@@ -109,8 +110,8 @@ export default function Tweet(props) {
 
   const customStyle = {
     ...props.style,
-    margin: (props.threaded) ? "0" : "",
-    boxShadow: (props.threaded) ? "none" : "",
+    margin: props.threaded ? "0" : "",
+    boxShadow: props.threaded ? "none" : "",
     borderBottom: props.threaded ? "none" : "",
   };
 
@@ -254,13 +255,21 @@ export default function Tweet(props) {
 
                     {/* Tweet Content */}
                     <p className="card-text my-3"> {props.tweet.content} </p>
-                    {audioBlob && (
-                      <audio
-                        controls
-                        autoplay
-                        src={URL.createObjectURL(audioBlob)}
-                      ></audio>
-                    )}
+                    {props.tweet.audio &&
+                      (!audioBlob ? (
+                        <NameAndIdSkeletonLoader customStyles={{ margin: "10px 0 20px 0" }} />
+                      ) : (
+                        <audio
+                          style={{
+                            width: "70%",
+                            height: "1.5em",
+                            margin: "10px 0 20px 0",
+                          }}
+                          controls
+                          autoplay
+                          src={URL.createObjectURL(audioBlob)}
+                        ></audio>
+                      ))}
                     {/* Tweet Image */}
                     {/* <div className="tweet-image-bg">
                                             <img src="https://github.com/mdo.png" alt="tweet_img" className="tweet-image" />

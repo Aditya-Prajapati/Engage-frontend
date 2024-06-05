@@ -52,32 +52,18 @@ const AudioRecorder = ({ updateAudioBlobRef, audioBlobRef }) => {
 
   return (
     <div
-      className="recording-button"
+      className="recording-button d-flex align-items-center justify-content-end me-3"
       id={`${isRecording ? "recording-button-id" : ""}`}
-      style={{
-        padding: "20px",
-        borderRadius: "5px",
-        display: "flex",
-        textAlign: "center",
-      }}
     >
       {audioBlob && audioBlobRef ? (
         <CancelIcon
           fontSize="large"
-          sx={{
-            marginTop: "10px",
-            marginRight: "12px",
-          }}
           onClick={RemoveAudioData}
-          style={{ cursor: "pointer" }}
+          style={{ cursor: "pointer", marginRight: "4px" }}
         />
       ) : (
         <MicIcon
           fontSize="large"
-          sx={{
-            marginTop: "10px",
-            marginLeft: "10px",
-          }}
           onClick={handleAudioRecording}
           style={{ cursor: "pointer" }}
         />

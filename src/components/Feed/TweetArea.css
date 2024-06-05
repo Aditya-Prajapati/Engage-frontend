@@ -8,6 +8,14 @@
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
+.tweet-area .recording-button {
+  padding: 0;
+}
+
+.tweet-area .recording-button svg {
+  margin: 0;
+}
+
 .tweet-area-text-area {
   border: none;
   outline: none;

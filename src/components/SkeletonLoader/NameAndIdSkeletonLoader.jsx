@@ -9,10 +9,11 @@ const NameAndIdSkeletonLoader = ({
   heightId,
   animationDelayName,
   animationDelayId,
+  customStyles
 }) => {
   const { DarkMode } = useContext(UserContext);
   return (
-    <div className="skeleton-name-id">
+    <div className="skeleton-name-id" style={customStyles}>
       <div
         className={`skeleton-name skeleton-animation ${
           DarkMode ? "darkMode-skeltonChanges" : ""
