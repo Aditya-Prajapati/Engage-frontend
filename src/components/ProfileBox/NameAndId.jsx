@@ -14,7 +14,9 @@ export default function NameAndId(props) {
   }
 
   return (
-    <div className="d-inline-flex flex-column name-and-id">
+    <div
+      className="d-inline-flex flex-column name-and-id"
+    >
       <p> {userCopy.name} </p>
       <div>
         <span> {userCopy.username} </span>

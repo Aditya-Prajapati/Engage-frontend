@@ -13,6 +13,7 @@ import Header from "../Header/Header";
 import { Link, useParams } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { UserContext } from "../../Context/UserContext";
+import { NameAndIdSkeletonLoader } from "../SkeletonLoader";
 
 let TIME = `${new Date().getHours()}:${new Date().getMinutes()}:${new Date().getSeconds()}`;
 let DATE = `${new Date().getDate()}-${
@@ -27,8 +28,9 @@ const deleteTweet = (e, tweet, setDeleteTweet) => {
       `${BASE_URL}/tweet/deletetweet`,
       {
         tweetId: tweet._id,
+        audio: tweet.audio ? tweet.audio : null,
       },
-      { withCredentials: true },
+      { withCredentials: true }
     )
     .then((res) => {
       if (res.status == 200) {
@@ -49,7 +51,7 @@ const handleLike = (tweet, setLikes, isComment, liked, setLiked) => {
         isComment: isComment,
         likes: tweet.likes,
       },
-      { withCredentials: true },
+      { withCredentials: true }
     )
     .then((res) => {
       if (res.data.message == "Already liked") {
@@ -69,7 +71,7 @@ const handleComment = (
   setClickedCommentButton,
   clickedCommentButton,
   setCommentedBy,
-  isComment,
+  isComment
 ) => {
   if (clickedCommentButton) {
     setClickedCommentButton(false);
@@ -84,7 +86,7 @@ const handleComment = (
       {
         tweetId: tweet._id,
       },
-      { withCredentials: true },
+      { withCredentials: true }
     )
     .then((res) => {
       setCommentedBy(res.data.commentedBy);
@@ -95,8 +97,6 @@ const handleComment = (
 };
 
 export default function Tweet(props) {
-  
-
   const isMobile = useMediaQuery({ query: "(max-width: 599px)" });
   const [timeStamp, setTimeStamp] = useState(null);
   const [likes, setLikes] = useState(props.tweet.likes);
@@ -111,8 +111,8 @@ export default function Tweet(props) {
 
   const customStyle = {
     ...props.style,
-    margin: (props.threaded) ? "0" : "",
-    boxShadow: (props.threaded) ? "none" : "",
+    margin: props.threaded ? "0" : "",
+    boxShadow: props.threaded ? "none" : "",
     borderBottom: props.threaded ? "none" : "",
   };
 
@@ -142,41 +142,68 @@ export default function Tweet(props) {
     }-${new Date().getFullYear()}`;
     let tweetDate = new Date(tweetYear + "-" + tweetMonth + "-" + tweetDay);
     let currDate = new Date(
-      DATE.split("-")[2] + "-" + DATE.split("-")[1] + "-" + DATE.split("-")[0],
+      DATE.split("-")[2] + "-" + DATE.split("-")[1] + "-" + DATE.split("-")[0]
     );
 
     if (currDate.getTime() === tweetDate.getTime()) {
       setTimeStamp(
-        Math.abs(parseInt(TIME.split(":")[0]) - parseInt(tweetHr)) + "h",
+        Math.abs(parseInt(TIME.split(":")[0]) - parseInt(tweetHr)) + "h"
       ); // within a day
     } else {
       setTimeStamp(
         tweetDay +
           " " +
-          tweetDate.toLocaleString("default", { month: "long" }).substr(0, 3),
+          tweetDate.toLocaleString("default", { month: "long" }).substr(0, 3)
       ); // not today
     }
 
     setTimeout(updateTimeStamp, 100000);
   };
 
+  const [audioBlob, setAudioBlob] = useState(null);
+  const fetchAudioData = async () => {
+    try {
+      if (props.tweet.audio) {
+        const filename = props.tweet.audio.filename;
+        const response = await axios.get(
+          `${BASE_URL}/tweet/getAudio/${filename}`,
+          {
+            withCredentials: true,
+            responseType: "arraybuffer", // Ensure the response is an arraybuffer
+            timeout: 5000,
+          }
+        );
+
+        if (response.status === 200) {
+          const blob = new Blob([response.data], { type: "audio/webm" });
+          setAudioBlob(blob);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching audio data:", error);
+    }
+  };
+
   useEffect(() => {
+    fetchAudioData();
     updateTimeStamp();
-  }, []);
+  }, [props.tweet.audio]);
 
   // if (!timeStamp) return <div> Loading... </div>;
 
   return (
     <div
-      className={`${DarkMode === true ? "darkMode tweet-darkMode-changes" : ""}`}
+      className={`${
+        DarkMode === true ? "darkMode tweet-darkMode-changes" : ""
+      }`}
     >
       <div className="card" id="tweet" style={customStyle}>
         <div className="card-body">
           <div className="d-flex flex-column">
             <Link
-              to={`/u/${props.currentActiveAccountIdx}/${props.tweet.username}/${props.tweet._id}/${
-                props.isComment || false
-              }`}
+              to={`/u/${props.currentActiveAccountIdx}/${
+                props.tweet.username
+              }/${props.tweet._id}/${props.isComment || false}`}
               style={{ textDecoration: "none", color: "black" }}
             >
               <div className="d-flex">
@@ -229,6 +256,21 @@ export default function Tweet(props) {
 
                     {/* Tweet Content */}
                     <p className="card-text my-3"> {props.tweet.content} </p>
+                    {props.tweet.audio &&
+                      (!audioBlob ? (
+                        <NameAndIdSkeletonLoader customStyles={{ margin: "10px 0 20px 0" }} />
+                      ) : (
+                        <audio
+                          style={{
+                            width: "70%",
+                            height: "1.5em",
+                            margin: "10px 0 20px 0",
+                          }}
+                          controls
+                          autoplay
+                          src={URL.createObjectURL(audioBlob)}
+                        ></audio>
+                      ))}
                     {/* Tweet Image */}
                     {/* <div className="tweet-image-bg">
                                             <img src="https://github.com/mdo.png" alt="tweet_img" className="tweet-image" />
@@ -247,7 +289,7 @@ export default function Tweet(props) {
                           setClickedCommentButton,
                           clickedCommentButton,
                           setCommentedBy,
-                          props.isComment,
+                          props.isComment
                         );
                       }}
                       className="d-flex align-items-center card-link ms-1 options"
@@ -285,7 +327,7 @@ export default function Tweet(props) {
                           setLikes,
                           props.isComment,
                           liked,
-                          setLiked,
+                          setLiked
                         );
                       }}
                       className="d-flex align-items-center card-link ms-5 options"
