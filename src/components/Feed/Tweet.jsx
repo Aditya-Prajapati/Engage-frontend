@@ -109,6 +109,8 @@ export default function Tweet(props) {
 
   const customStyle = {
     ...props.style,
+    margin: (props.threaded) ? "0" : "",
+    boxShadow: (props.threaded) ? "none" : "",
     borderBottom: props.threaded ? "none" : "",
   };
 
@@ -357,7 +359,7 @@ export default function Tweet(props) {
           <TweetArea
             tweet={props.tweet}
             user={props.currentUser || props.user}
-            text="Tweet your reply!"
+            text="Post a comment..."
             buttonText="Reply"
             style={{
               marginTop: "14px",

@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap');
+
 body {
   margin: 0;
   padding: 0;
@@ -22,5 +24,5 @@ body {
 }
 
 .box-shadow {
-  box-shadow: 0 0 3px 0 #00000022;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
