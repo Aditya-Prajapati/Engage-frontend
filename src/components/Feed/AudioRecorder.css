@@ -1,0 +1,11 @@
+.recording-button * {
+  color: #1da1f2 !important;
+}
+
+.recording-button *:hover {
+  color: red !important;
+}
+
+#recording-button-id * {
+  color: red !important;
+}

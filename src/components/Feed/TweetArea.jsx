@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
 import axios from "axios";
 import ProfileImage from "../ProfileImage";
 import CollectionsIcon from "@mui/icons-material/Collections";
@@ -8,65 +8,92 @@ import GeneralButton from "../Buttons/GeneralButton";
 import "./TweetArea.css";
 import { UserContext } from "../../Context/UserContext";
 import { TweetSkeletonLoader } from "../SkeletonLoader";
+import AudioRecorder from "./AudioRecorder";
 
 export default function TweetArea(props) {
   const [tweetContent, setTweetContent] = useState("");
   const { DarkMode, setDarkMode } = useContext(UserContext);
 
+  const [audioBlobRef, setAudioBlobRef] = useState(null); // store voice info :)
+  const updateAudioBlobRef = (data) => {
+    setAudioBlobRef(data);
+  };
+
   if (!props.user) {
     return <TweetSkeletonLoader />;
   }
 
-  const postTweet = async (e) => {
+ const postTweet = async (e) => {
+   e.preventDefault();
+   
+   let formData = new FormData();
+   formData.append("name", props.user.name);
+   formData.append("username", props.user.username);
+   formData.append("tweetContent", tweetContent.trim());
+
+   // Check if audio exists and append it to the formData
+   if (audioBlobRef) {
+     formData.append("audio", audioBlobRef, "audio.wav");
+   }
+
+   try {
+     const res = await axios.post(
+       "http://localhost:8000/tweet/posttweets",
+       formData,
+       {
+         withCredentials: true,
+         maxContentLength: Infinity,
+         headers: {
+           "Content-Type": "multipart/form-data",
+         },
+       }
+     );
+
+     if (res.status === 200) {
+       setTweetContent("");
+       props.setTweets([res.data.postedTweet, ...props.tweets]);
+     }
+   } catch (err) {
+     console.log(err);
+   } finally {
+     // Clear the audio blob after the request is completed
+     updateAudioBlobRef(null);
+   }
+ };
+
+  const comment = async (e) => {
     e.preventDefault();
 
-    await axios
-      .post(
-        "http://localhost:8000/tweet/posttweets",
-        {
-          name: props.user.name,
-          username: props.user.username,
-          tweetContent: tweetContent.trim(),
-        },
-        { withCredentials: true },
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          setTweetContent("");
-        }
-        props.setTweets([res.data.postedTweet, ...props.tweets]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const comment = (e) => {
-    e.preventDefault();
-
-    axios
-      .post(
+    try {
+      const res = await axios.post(
         "http://localhost:8000/tweet/comment",
         {
           comments: props.comments,
           isComment: props.isComment || false,
-          tweetId: props.tweet._id, // comments are treated as tweet, so this tweet could be a comment too
-          tweetContent: tweetContent.trim(), // comment content
+          tweetId: props.tweet._id,
+          tweetContent: tweetContent.trim(),
+          audio: audioBlobRef,
         },
-        { withCredentials: true },
-      )
-      .then((res) => {
-        setTweetContent("");
         {
-          props.setComments && props.setComments(res.data.updatedComments);
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         }
-        {
-          props.setNewComment && props.setNewComment(true);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      );
+
+      setTweetContent("");
+
+      if (res.status === 200) {
+        props.setComments && props.setComments(res.data.updatedComments);
+        props.setNewComment && props.setNewComment(true);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      // Clear the audio blob after the request is completed
+      updateAudioBlobRef(null);
+    }
   };
 
   return (
@@ -96,14 +123,18 @@ export default function TweetArea(props) {
                             <div href="#"> <SentimentSatisfiedAltIcon className={"ms-3"} fontSize="small" sx={{ color: "#1da1f2" }} /> </div>
                         </div> */}
 
+            <AudioRecorder
+              updateAudioBlobRef={updateAudioBlobRef}
+              audioBlobRef={audioBlobRef}
+            />
             <button
               className={`tweet-button   ${
                 DarkMode === true ? "darkMode hovering-class" : ""
               } `}
-              disabled={!/\S/.test(tweetContent)}
+              disabled={!/\S/.test(tweetContent) && !audioBlobRef}
               style={{
                 backgroundColor: `${
-                  !/\S/.test(tweetContent)
+                  !audioBlobRef && !/\S/.test(tweetContent)
                     ? "rgb(29, 161, 242, 0.5)"
                     : "rgb(29, 161, 242)"
                 }`,
