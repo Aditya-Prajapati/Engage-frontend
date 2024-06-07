@@ -219,7 +219,7 @@ export default function Tweet(props) {
                                 className="dropdown-item"
                               >
                                 {" "}
-                                Delete Tweet{" "}
+                                Delete post{" "}
                               </button>
                             </li>
                           </ul>
