@@ -16,3 +16,6 @@ Engage is a social media platform built using the MERN stack, designed to facili
    - _Like Posts_
    - _Follow Users_
 8. **Responsive Design**: The app is fully responsive for both mobile and desktop devices.
+
+## Demo video
+https://github.com/Aditya-Prajapati/Engage-frontend/assets/63953219/b759ee13-9bf2-40b0-93ad-00fb29c5b76f
